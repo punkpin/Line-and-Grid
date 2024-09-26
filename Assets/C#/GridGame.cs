@@ -7,7 +7,7 @@ public class GridGame : MonoBehaviour
 {
     private GridGame() { }
     private static GridGame instance;
-    public static GridGame Instance //µ¥Àý
+    public static GridGame Instance //ï¿½ï¿½ï¿½ï¿½
     {
         get
         {
@@ -19,14 +19,14 @@ public class GridGame : MonoBehaviour
         }
     }
 
-    public List<GridItemInfo> gridItems = new List<GridItemInfo>(); //µØÍ¼ÀïÃæµÄÔªËØ
-    public GridItemInfo[,] gridItemInfos = new GridItemInfo[6,6];   //µØÍ¼
-    public GameObject gridItemPrefab;                               //µØÍ¼±³¾°
+    public List<GridItemInfo> gridItems = new List<GridItemInfo>(); //ï¿½ï¿½Í¼ï¿½ï¿½ï¿½ï¿½ï¿½Ôªï¿½ï¿½
+    public GridItemInfo[,] gridItemInfos = new GridItemInfo[6,6];   //ï¿½ï¿½Í¼
+    public GameObject gridItemPrefab;                               //ï¿½ï¿½Í¼ï¿½ï¿½ï¿½ï¿½
 
 
     private void Start() 
     {
-        for (int i = 0; i < 6; i++)//½«µØÍ¼ÔªËØ·Åµ½µØÍ¼ÖÐÈ¥
+        for (int i = 0; i < 6; i++)//ï¿½ï¿½ï¿½ï¿½Í¼Ôªï¿½Ø·Åµï¿½ï¿½ï¿½Í¼ï¿½ï¿½È¥
         {
             for(int j = 0; j < 6; j++)
             {   
@@ -41,16 +41,16 @@ public class GridGame : MonoBehaviour
 
     public void LoadGrid() 
     {
-        for (int i = 0; i < 6; i++)//½«µØÍ¼ÔªËØ·Åµ½µØÍ¼ÖÐÈ¥
+        for (int i = 0; i < 6; i++)//ï¿½ï¿½ï¿½ï¿½Í¼Ôªï¿½Ø·Åµï¿½ï¿½ï¿½Í¼ï¿½ï¿½È¥
         {
             for (int j = 0; j < 6; j++)
             {
-                GameObject Item = Resources.Load<GameObject>("Prefab/µØÍ¼Íø¸ñÔªËØ");  // »ñÈ¡µØÍ¼±³¾°µÄ×ÓÎïÌå
-                GameObject gameObject = Instantiate(Item, transform.position, transform.rotation, transform);  //ÊµÀý»¯
+                GameObject Item = Resources.Load<GameObject>("Prefab/åœ°å›¾ç½‘æ ¼å…ƒç´ ");  // ï¿½ï¿½È¡ï¿½ï¿½Í¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+                GameObject gameObject = Instantiate(Item, transform.position, transform.rotation, transform);  //Êµï¿½ï¿½ï¿½ï¿½
                 gameObject.name = $"({i},{j})";
                 GridItem Info = gameObject.GetComponent<GridItem>();
                 Info.itemInfo = gridItemInfos[i,j];
-                gameObject.transform.SetParent(gridItemPrefab.transform, false); //½«ÊµÀý»¯µÄÎïÌå×÷ÎªgridItemPrefabµÄ×ÓÎïÌå
+                gameObject.transform.SetParent(gridItemPrefab.transform, false); //ï¿½ï¿½Êµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÎªgridItemPrefabï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 
             }
         }  
