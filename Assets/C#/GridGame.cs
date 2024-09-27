@@ -23,6 +23,8 @@ public class GridGame : MonoBehaviour
     public GridItemInfo[,] gridItemInfos = new GridItemInfo[6,6];   //��ͼ
     public GameObject gridItemPrefab;                               //��ͼ����
 
+    public List<GridItemInfo> examItems = new List<GridItemInfo>(); //inspect GridItemInfo element
+
 
     private void Start() 
     {
@@ -33,7 +35,12 @@ public class GridGame : MonoBehaviour
                 gridItemInfos[i, j] = gridItems[i * 6 + j];
                 gridItemInfos[i,j].index_i = i;
                 gridItemInfos[i,j].index_j = j;
-                
+
+                if (gridItems[i * 6 + j].isDigit || gridItems[i * 6 + j].isSquare || gridItems[i * 6 + j].isCirle)
+                {
+                    examItems.Add(gridItems[i * 6 + j]);
+                }
+
             }
         }
         LoadGrid();
@@ -45,7 +52,7 @@ public class GridGame : MonoBehaviour
         {
             for (int j = 0; j < 6; j++)
             {
-                GameObject Item = Resources.Load<GameObject>("Prefab/地图网格元素");  // ��ȡ��ͼ������������
+                GameObject Item = Resources.Load<GameObject>("Prefab/GridItem");  // ��ȡ��ͼ������������
                 GameObject gameObject = Instantiate(Item, transform.position, transform.rotation, transform);  //ʵ����
                 gameObject.name = $"({i},{j})";
                 GridItem Info = gameObject.GetComponent<GridItem>();

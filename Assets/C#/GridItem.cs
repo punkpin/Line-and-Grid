@@ -8,8 +8,8 @@ using UnityEngine.UI;
 public class GridItemInfo
 {
     public int value;          //格子数字
-    public int index_i;        // i坐标
-    public int index_j;        // j坐标
+    internal int index_i;        // i坐标
+    internal int index_j;        // j坐标
     public bool isDigit;       //是否为数字
     public bool isSquare;      //是否为方形
     public bool isCirle;       //是否为圆形
