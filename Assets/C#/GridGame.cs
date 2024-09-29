@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GridGame : MonoBehaviour
 {
@@ -29,7 +30,7 @@ public class GridGame : MonoBehaviour
     public GridItemInfo lastItem = new GridItemInfo();  //上一格(用于判断路径是否合法)
     public List<GridItem> gridDigits;
     public bool inCheck;    //是否正在检查
-
+    public bool isAnimPlaying;
     private void Start() 
     {
         LoadGrid();
@@ -99,12 +100,16 @@ public class GridGame : MonoBehaviour
         }
 
         StartCoroutine(ClearRoute());
-        if (isRight) Debug.Log("恭喜过关！！！");
-        
+        if (isRight) {
+            NextLevelButton.interactable=true;
+            GameMgr.SaveData(nowPass+1);
+            Debug.Log("恭喜过关！！！");
+        }
     }
-
+    public Button NextLevelButton;
     public IEnumerator ClearRoute()
     {
+        isAnimPlaying=true;
         foreach (GridItem Item in gridRoute)
         {
             Item.highLight.SetActive(false);
@@ -112,10 +117,17 @@ public class GridGame : MonoBehaviour
         }
         gridRoute.Clear();
         LoadGrid();
+        isAnimPlaying=false;
     }
 
     public void LoadGrid() //加载地图
     {
+        if(GameMgr.LoadData().currentLevel==nowPass){
+            NextLevelButton.interactable=false;
+        }
+        else{
+            NextLevelButton.interactable=true;
+        }
         lastItem.index_i = -1; //开始时上一个路径为空
         inCheck = false;
         gridItemInfos = new GridItemInfo[6, 6];
