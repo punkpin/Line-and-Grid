@@ -32,9 +32,10 @@ public class GridGame : MonoBehaviour
     public List<GridItem> gridRoute; //游戏路线
     public GridItemInfo lastItem = new GridItemInfo();  //上一格(用于判断路径是否合法)
     public List<GridItem> gridDigits; //数字
-    public bool inCheck;    //是否正在检查
-    public bool isAnimPlaying;
+    public bool isAnimPlaying;    //是否正在检查
     public Button NextLevelButton; //下一关按钮
+    public Button PrevLevelButton; //上一关按钮
+    public bool isPass; //是否过关
 
     private void Start() 
     {
@@ -43,9 +44,9 @@ public class GridGame : MonoBehaviour
 
     public void Update()
     {
-        if (!Input.GetMouseButton(0) && inCheck == false) //已经松开了鼠标 并且不在检查时间内
+        if (!Input.GetMouseButton(0) && isAnimPlaying == false) //已经松开了鼠标 并且不在检查时间内
         {
-            inCheck = true;
+            isAnimPlaying = true;
             CheckRoute(); //确认游戏路线
         }
     }
@@ -54,15 +55,16 @@ public class GridGame : MonoBehaviour
     {
         if (gridRoute.Count <= 0)
         {
-            inCheck = false;
+            isAnimPlaying = false;
             return;//如果游戏线路为空就先返回
         }
 
         StartCoroutine(ClearRoute());
         if (CheckDigit() && CheckShape()) {
             NextLevelButton.interactable = true;
-            GameMgr.SaveData(nowPass + 1);
+            if (nowPass + 1 > GameMgr.LoadData().currentLevel) GameMgr.SaveData(nowPass + 1);
             Debug.Log("恭喜过关！！！");
+            isPass = true;
         }
     }
     
@@ -83,7 +85,7 @@ public class GridGame : MonoBehaviour
             }
         }
 
-        if (circleValue % 2 == 0 || squareValue % 2 == 0)
+        if ((circleValue % 2 == 0 || squareValue % 2 == 0) && nowStage == 1)
         {
             Debug.Log(circleValue + " " + squareValue);
             Debug.Log("路径上圆或方的数量不为奇数！");
@@ -184,26 +186,50 @@ public class GridGame : MonoBehaviour
     public IEnumerator ClearRoute()
     {
         isAnimPlaying=true;
+        NextLevelButton.gameObject.SetActive(false);
+        PrevLevelButton.gameObject.SetActive(false);
         foreach (GridItem Item in gridRoute)
         {
             Item.highLight.SetActive(false);
             yield return new WaitForSeconds(0.05f); // 可根据需要调整延迟时间
         }
+        NextLevelButton.gameObject.SetActive(true);
+        PrevLevelButton.gameObject.SetActive(true);
         gridRoute.Clear();
-        LoadGrid();
-        isAnimPlaying=false;
+        isAnimPlaying = false;
+        if (isPass == true)
+        {
+            NextPass();
+            GameAudio.Instance.Correct();
+        }
+        else
+        {
+            LoadGrid();
+            GameAudio.Instance.Wrong();
+        }
     }
 
     public void LoadGrid() //加载地图
     {
-        if(GameMgr.LoadData().currentLevel==nowPass){
-            NextLevelButton.interactable=false;
+        if (nowPass == 1)
+        {
+            PrevLevelButton.gameObject.SetActive(false);
         }
-        else{
-            NextLevelButton.interactable=true;
+        else
+        {
+            PrevLevelButton.gameObject.SetActive(true);
+        }
+        if (GameMgr.LoadData().currentLevel == nowPass || nowPass == 10)
+        {
+            NextLevelButton.gameObject.SetActive(false);
+        }
+        else
+        {
+            NextLevelButton.gameObject.SetActive(true);
         }
         lastItem.index_i = -1; //开始时上一个路径为空
-        inCheck = false;
+        isAnimPlaying = false;
+        isPass = false;
         gridItemInfos = new GridItemInfo[6, 6];
         gridDigits = new List<GridItem>();
         if(gridRoute.Count > 0) gridRoute.Clear();

@@ -70,7 +70,7 @@ public class GridItem : MonoBehaviour
 
     public void Update()
     {
-        if(isMouseOver && Input.GetMouseButton(0) && !itemInfo.isDigit&&!GridGame.Instance.isAnimPlaying)
+        if(isMouseOver && Input.GetMouseButton(0) && !itemInfo.isDigit && !GridGame.Instance.isAnimPlaying)
         {
             GridGame.Instance.AddRoute(this.gameObject.GetComponent<GridItem>()); // 将元素信息传递
         }
