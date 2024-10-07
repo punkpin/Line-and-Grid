@@ -36,8 +36,13 @@ public class GridGameUI : MonoBehaviour
                 GameObject gameObjectUI = Instantiate(ItemUI, transform.position, transform.rotation, transform);
                 gameObjectUI.name = $"({i},{j})";
                 GridItemUI InfoUI = gameObjectUI.GetComponent<GridItemUI>();
-                if (gridItemInfos[i, j].isDigit) InfoUI.digit = gridItemInfos[i, j].value;
-                else InfoUI.digit = -1;
+                if (gridItemInfos[i, j].isDigit)
+                {
+                    InfoUI.digit = gridItemInfos[i, j].value;
+                    InfoUI.digitalType = gridItemInfos[i, j].digitalType;
+                    InfoUI.isDigit = true;
+                }
+                else InfoUI.isDigit = false;
                 gameObjectUI.transform.SetParent(gridItemUIPrefab.transform, false);
 
             }

@@ -14,7 +14,7 @@ public class GameMgr : MonoBehaviour
 {
     public static void SaveData(int x){
         string dataJosn=JsonUtility.ToJson(new Data(x));
-        Debug.Log(dataJosn);
+        Debug.Log("当前关卡进度" + dataJosn);
         string path=Path.Combine(Application.dataPath,"Data/gameLevelData.json");
         using(StreamWriter sw=new StreamWriter(path)){
             sw.Write(dataJosn);

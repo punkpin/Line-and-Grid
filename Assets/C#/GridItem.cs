@@ -12,6 +12,7 @@ public class GridItemInfo
     public int index_i;        // i坐标
     public int index_j;        // j坐标
     public bool isDigit;       //是否为数字
+    public int digitalType;    //数字种类
     public bool isSquare;      //是否为方形
     public bool isCircle;       //是否为圆形
 }
@@ -79,6 +80,7 @@ public class GridItem : MonoBehaviour
     public virtual void OnMouseEnter() //当鼠标进入UI时
     {
         selected.SetActive(true);
+        if (itemInfo.digitalType == 3 || itemInfo.digitalType == 4) return; //绿和红不显示范围
         if (itemInfo.isDigit) //如果该节点是数字
         {
             int[] dx = { 0, 0, 1, -1, 1, 1, -1, -1 };    //8个方向

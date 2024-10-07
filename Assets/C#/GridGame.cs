@@ -1,5 +1,7 @@
+using JetBrains.Annotations;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Mathematics;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
@@ -25,10 +27,11 @@ public class GridGame : MonoBehaviour
     public GridItemInfo[,] gridItemInfos;   //目前的地图
     public GameObject gridItemPrefab;                               //��ͼ����
     public int nowPass = 1; //目前的关卡数
+    public int nowStage;
     
     public List<GridItem> gridRoute; //游戏路线
     public GridItemInfo lastItem = new GridItemInfo();  //上一格(用于判断路径是否合法)
-    public List<GridItem> gridDigits;
+    public List<GridItem> gridDigits; //数字
     public bool inCheck;    //是否正在检查
     public bool isAnimPlaying;
     public Button NextLevelButton; //下一关按钮
@@ -55,29 +58,24 @@ public class GridGame : MonoBehaviour
             return;//如果游戏线路为空就先返回
         }
 
-        int[] dx = { 0, 0, 1, -1, 1, 1, -1, -1 };//八个方向
-        int[] dy = { 1, -1, 0, 0, 1, -1, -1, 1 };
+        StartCoroutine(ClearRoute());
+        if (CheckDigit() && CheckShape()) {
+            NextLevelButton.interactable = true;
+            GameMgr.SaveData(nowPass + 1);
+            Debug.Log("恭喜过关！！！");
+        }
+    }
+    
+    public bool CheckShape()//形状判断
+    {
         bool isRight = true; //默认路径正确
-        int circleValue = 0,squareValue = 0; //圆和方的数量初始为0
-        Debug.Log(gridRoute.Count);
-        for (int i = 0; i < gridRoute.Count; i++) 
+        int circleValue = 0, squareValue = 0; //圆和方的数量初始为0
+        Debug.Log("该路径长度为：" + gridRoute.Count);
+        for (int i = 0; i < gridRoute.Count; i++)
         {
             if (gridRoute[i].itemInfo.isCircle) circleValue++; //路径是圆
             if (gridRoute[i].itemInfo.isSquare) squareValue++; //路径是方
-            for (int k = 0; k < 8; k++)//给周围8个方向数字都+1
-            {
-                int nx = gridRoute[i].itemInfo.index_i + dx[k];
-                int ny = gridRoute[i].itemInfo.index_j + dy[k];
-                if(nx < 0 || nx >= 6 || ny < 0 || ny >= 6) continue;
 
-                if(gridItemInfos[nx, ny].isDigit && gridItemInfos[nx, ny].value - 1 < 0)//如果超过数字限度
-                {
-                    Debug.Log(nx + " " +  ny + " " + (gridItemInfos[nx,ny].value - 1));
-                    Debug.Log("数字周围路径过多！");
-                    isRight = false;
-                }   
-                gridItemInfos[nx, ny].value--;
-            }
             if (i == gridRoute.Count - 1 && !(gridRoute[i].itemInfo.isSquare || gridRoute[i].itemInfo.isCircle))
             {
                 Debug.Log("不是以方或圆结束");
@@ -91,24 +89,98 @@ public class GridGame : MonoBehaviour
             Debug.Log("路径上圆或方的数量不为奇数！");
             isRight = false;
         }
+        return isRight;
+    }
 
-        for (int i = 0; i < gridDigits.Count; i++)
+    public bool CheckDigit()//数字判断
+    {
+        bool isRight = true; //开始默认满足
+        int[] dx = { 0, 0, 1, -1, 1, 1, -1, -1 };
+        int[] dy = { 1, -1, 0, 0, 1, -1, -1, 1 };
+        for (int i = 0; i < gridDigits.Count; i++) //遍历地图数字元素
         {
-            //如果地图数字的value不为0
-            if (gridItemInfos[gridDigits[i].itemInfo.index_i, gridDigits[i].itemInfo.index_j].value != 0){
-                isRight = false;
-                Debug.Log("未能将所有数字满足！");
+            int tx = gridDigits[i].itemInfo.index_i; //数字元素的x坐标
+            int ty = gridDigits[i].itemInfo.index_j; //数字元素的y坐标
+            int value = gridDigits[i].itemInfo.value;//数字
+            if (gridDigits[i].itemInfo.digitalType == 1) //为白色数字
+            {
+                for(int k = 0; k < 8; k++)
+                {
+                    int nx = tx + dx[k], ny = ty + dy[k];
+                    if (nx < 0 || nx >= 6 || ny < 0 || ny >= 6) continue;
+                    if (gridItemInfos[nx, ny].value == 1 && gridItemInfos[nx,ny].isDigit == false) value--; //周围是路径就减一
+                    if (value < 0) break;
+                }
+                if(value != 0)
+                {
+                    Debug.Log("(" + (tx + 1) + "," + (ty + 1) + ")位置的数字未满足或超过");
+                    
+                    isRight = false;
+                }
+            }
+            else if (gridDigits[i].itemInfo.digitalType == 2) //为黑色数字
+            {
+                for (int k = 0; k < 8; k++)
+                {
+                    int nx = tx + dx[k], ny = ty + dy[k];
+                    if (nx < 0 || nx >= 6 || ny < 0 || ny >= 6) continue;
+                    if (gridItemInfos[nx, ny].value != 1 || gridItemInfos[nx,ny].isDigit) value--; //周围不是路径或者是数字就减一
+                    if (value < 0) break;
+                }
+                if (value != 0)
+                {
+                    Debug.Log("(" + (tx + 1) + "," + (ty + 1) + ")位置的数字未满足或超过");
+                    
+                    isRight = false;
+                }
+            }
+            else if (gridDigits[i].itemInfo.digitalType == 3) //为绿色数字
+            {       
+                int nx = gridRoute[0].itemInfo.index_i; //起点x坐标
+                int ny = gridRoute[0].itemInfo.index_j; //起点y坐标
+                if(value > 0)
+                {
+                    if(Mathf.Abs(tx - nx) > value || Mathf.Abs(ty - ny) > value)
+                    {
+                        Debug.Log("起点的位置在(" + (tx + 1) + "," + (ty + 1) + ")的 " + value + "范围外！");
+                        isRight = false;
+                    }
+                }
+                else
+                {
+                    if (Mathf.Abs(tx - nx) <= value || Mathf.Abs(ty - ny) <= value)
+                    {
+                        Debug.Log("起点的位置在(" + (tx + 1) + "," + (ty + 1) + ")的 " + -value + "范围内！");
+                        isRight = false;
+                    }
+                }
+            }
+            else if (gridDigits[i].itemInfo.digitalType == 4) //为红色数字
+            {
+                int nx = gridRoute[gridRoute.Count - 1].itemInfo.index_i; //终点x坐标
+                int ny = gridRoute[gridRoute.Count - 1].itemInfo.index_j; //终点y坐标
+                if (value > 0)
+                {
+                    if (Mathf.Abs(tx - nx) > value || Mathf.Abs(ty - ny) > value)
+                    {
+                        Debug.Log("终点的位置在(" + (tx + 1) + "," + (ty + 1) + ")的 " + value + "范围外！");
+                        isRight = false;
+                    }
+                }
+                else
+                {
+                    if (Mathf.Abs(tx - nx) <= value || Mathf.Abs(ty - ny) <= value)
+                    {
+                        Debug.Log("终点的位置在(" + (tx + 1) + "," + (ty + 1) + ")的 " + -value + "范围内！");
+                        isRight = false;
+                    }
+                }
             }
         }
-
-        StartCoroutine(ClearRoute());
-        if (isRight) {
-            NextLevelButton.interactable=true;
-            GameMgr.SaveData(nowPass+1);
-            Debug.Log("恭喜过关！！！");
-        }
+        return isRight;
     }
-    
+
+
     public IEnumerator ClearRoute()
     {
         isAnimPlaying=true;
@@ -140,18 +212,29 @@ public class GridGame : MonoBehaviour
             GameObject.Destroy(gridItemPrefab.transform.GetChild(i).gameObject);
         }
 
-        int[] number = { -1, 1, 2, 3, 4, 5, 6, 7, 8, 9, 0 }; //下标对应数据，-1对应1,-2对应2...-10对应0
         for (int i = 0; i < 6; i++)//����ͼԪ�طŵ���ͼ��ȥ
         {
             for (int j = 0; j < 6; j++)
             {
                 gridItemInfos[i, j] = new GridItemInfo();
-                int index = CustomsPass.customPasses[nowPass - 1][i][j];
-                if (gridItemInfos[i, j] == null) Debug.Log("NULL");
-                if (index < 0) gridItemInfos[i, j].value = number[-index];//是数字就输入数值 否则为0 
-                if (index < 0) gridItemInfos[i, j].isDigit = true;    //是否为数字
+                int index = 0;
+                if(nowStage == 1)
+                {
+                    index = CustomsPass.customPassesStage1[nowPass - 1][i][j];
+
+                }
+                else if(nowStage == 2)
+                {
+                    index = CustomsPass.customPassesStage2[nowPass - 1][i][j];
+                }
                 if (index == 2) gridItemInfos[i, j].isSquare = true;  //是否为方形
-                if (index == 3) gridItemInfos[i, j].isCircle = true;   //是否为圆形
+                else if (index == 3) gridItemInfos[i, j].isCircle = true;   //是否为圆形
+                else if (index != 0)
+                {
+                    gridItemInfos[i,j].isDigit = true; //是否为数字
+                    gridItemInfos[i, j].value = index % 10;
+                    gridItemInfos[i, j].digitalType = Mathf.Abs(index / 10);
+                }
                 gridItemInfos[i, j].index_i = i;
                 gridItemInfos[i, j].index_j = j;
             }

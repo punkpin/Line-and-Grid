@@ -171,16 +171,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gridItemPrefab: {fileID: 2039319639}
   nowPass: 1
+  nowStage: 1
   gridRoute: []
   lastItem:
     value: 0
     index_i: -1
     index_j: 0
     isDigit: 0
+    digitalType: 0
     isSquare: 0
     isCircle: 0
   gridDigits: []
   inCheck: 0
+  isAnimPlaying: 0
   NextLevelButton: {fileID: 1794208734}
 --- !u!114 &23521893
 MonoBehaviour:
@@ -572,7 +575,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1302405422}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
@@ -1392,7 +1395,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &2133819696
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1422,22 +1425,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 2133819695}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d1eabf45801839f4f9f7b28751a7e658, type: 3}
+  m_Script: {fileID: 11500000, guid: 9edcf115f381c304781a508509540227, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gridItemPrefab: {fileID: 1302405422}
-  nowPass: 1
-  gridRoute: []
-  lastItem:
-    value: 0
-    index_i: 0
-    index_j: 0
-    isDigit: 0
-    isSquare: 0
-    isCircle: 0
-  gridDigits: []
-  inCheck: 0
-  NextLevelButton: {fileID: 0}
+  gridItemUIPrefab: {fileID: 1302405422}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

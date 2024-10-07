@@ -171,12 +171,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gridItemPrefab: {fileID: 2039319639}
   nowPass: 1
+  nowStage: 2
   gridRoute: []
   lastItem:
     value: 0
     index_i: -1
     index_j: 0
     isDigit: 0
+    digitalType: 0
     isSquare: 0
     isCircle: 0
   gridDigits: []
