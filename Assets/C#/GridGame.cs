@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.Mathematics;
 using Unity.VisualScripting;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -138,44 +139,54 @@ public class GridGame : MonoBehaviour
             }
             else if (gridDigits[i].itemInfo.digitalType == 3) //为绿色数字
             {       
-                int nx = gridRoute[0].itemInfo.index_i; //起点x坐标
-                int ny = gridRoute[0].itemInfo.index_j; //起点y坐标
-                if(value > 0)
+                for(int j = 0; j < gridRoute.Count; j++)
                 {
-                    if(Mathf.Abs(tx - nx) > value || Mathf.Abs(ty - ny) > value)
+                    if (gridRoute[i].itemInfo.isSquare == false) continue;
+                    int nx = gridRoute[i].itemInfo.index_i;
+                    int ny = gridRoute[i].itemInfo.index_j;
+                    if (value > 0)
                     {
-                        Debug.Log("起点的位置在(" + (tx + 1) + "," + (ty + 1) + ")的 " + value + "范围外！");
-                        isRight = false;
+                        if (Mathf.Abs(tx - nx) > value || Mathf.Abs(ty - ny) > value)
+                        {
+                            Debug.Log("起点的位置在(" + (tx + 1) + "," + (ty + 1) + ")的 " + value + "范围外！");
+                            isRight = false;
+                        }
                     }
-                }
-                else
-                {
-                    if (Mathf.Abs(tx - nx) <= value || Mathf.Abs(ty - ny) <= value)
+                    else
                     {
-                        Debug.Log("起点的位置在(" + (tx + 1) + "," + (ty + 1) + ")的 " + -value + "范围内！");
-                        isRight = false;
+                        if (Mathf.Abs(tx - nx) <= value || Mathf.Abs(ty - ny) <= value)
+                        {
+                            Debug.Log("起点的位置在(" + (tx + 1) + "," + (ty + 1) + ")的 " + -value + "范围内！");
+                            isRight = false;
+                        }
                     }
-                }
+
+                } 
             }
             else if (gridDigits[i].itemInfo.digitalType == 4) //为红色数字
             {
-                int nx = gridRoute[gridRoute.Count - 1].itemInfo.index_i; //终点x坐标
-                int ny = gridRoute[gridRoute.Count - 1].itemInfo.index_j; //终点y坐标
-                if (value > 0)
+                for (int j = 0; j < gridRoute.Count; j++)
                 {
-                    if (Mathf.Abs(tx - nx) > value || Mathf.Abs(ty - ny) > value)
+                    if (gridRoute[i].itemInfo.isCircle == false) continue;
+                    int nx = gridRoute[i].itemInfo.index_i;
+                    int ny = gridRoute[i].itemInfo.index_j;
+                    if (value > 0)
                     {
-                        Debug.Log("终点的位置在(" + (tx + 1) + "," + (ty + 1) + ")的 " + value + "范围外！");
-                        isRight = false;
+                        if (Mathf.Abs(tx - nx) > value || Mathf.Abs(ty - ny) > value)
+                        {
+                            Debug.Log("起点的位置在(" + (tx + 1) + "," + (ty + 1) + ")的 " + value + "范围外！");
+                            isRight = false;
+                        }
                     }
-                }
-                else
-                {
-                    if (Mathf.Abs(tx - nx) <= value || Mathf.Abs(ty - ny) <= value)
+                    else
                     {
-                        Debug.Log("终点的位置在(" + (tx + 1) + "," + (ty + 1) + ")的 " + -value + "范围内！");
-                        isRight = false;
+                        if (Mathf.Abs(tx - nx) <= value || Mathf.Abs(ty - ny) <= value)
+                        {
+                            Debug.Log("起点的位置在(" + (tx + 1) + "," + (ty + 1) + ")的 " + -value + "范围内！");
+                            isRight = false;
+                        }
                     }
+
                 }
             }
         }
