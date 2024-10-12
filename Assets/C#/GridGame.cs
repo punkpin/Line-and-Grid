@@ -11,6 +11,7 @@ public class GridGame : MonoBehaviour
 {
     private float spacing = 0.168f; // 单元格间距
     private Vector3 firstVector3 = new Vector3(-0.42f, 0.419f, -0.3f); //地图的第一个位置
+    public List<GridItem> nowGridPrefab; //目前地图的元素实体
     private GridGame() { }
     private static GridGame instance;
     public static GridGame Instance //����
@@ -28,7 +29,7 @@ public class GridGame : MonoBehaviour
     public GridItemInfo[,] gridItemInfos;   //目前的地图
     public GameObject gridItemPrefab;                               //��ͼ����
     public int nowPass = 1; //目前的关卡数
-    public int nowStage;
+    public int nowStage; //当前关卡主题
     
     public List<GridItem> gridRoute; //游戏路线
     public GridItemInfo lastItem = new GridItemInfo();  //上一格(用于判断路径是否合法)
@@ -79,7 +80,7 @@ public class GridGame : MonoBehaviour
             if (gridRoute[i].itemInfo.isCircle) circleValue++; //路径是圆
             if (gridRoute[i].itemInfo.isSquare) squareValue++; //路径是方
 
-            if (i == gridRoute.Count - 1 && !(gridRoute[i].itemInfo.isSquare || gridRoute[i].itemInfo.isCircle))
+            if (i == gridRoute.Count - 1 && !(gridRoute[i].itemInfo.isSquare || gridRoute[i].itemInfo.isCircle) && nowStage != 3)
             {
                 Debug.Log("不是以方或圆结束");
                 isRight = false;//如果路径末尾不是圆或者方
@@ -90,6 +91,11 @@ public class GridGame : MonoBehaviour
         {
             Debug.Log(circleValue + " " + squareValue);
             Debug.Log("路径上圆或方的数量不为奇数！");
+            isRight = false;
+        }
+        if(circleValue == 0 || squareValue == 0)
+        {
+            Debug.Log("路径中至少有一个方和圆");
             isRight = false;
         }
         return isRight;
@@ -208,7 +214,7 @@ public class GridGame : MonoBehaviour
         PrevLevelButton.gameObject.SetActive(true);
         gridRoute.Clear();
         isAnimPlaying = false;
-        if (isPass == true)
+        if (isPass == true) //如果通关
         {
             NextPass();
             GameAudio.Instance.Correct();
@@ -244,6 +250,7 @@ public class GridGame : MonoBehaviour
         gridItemInfos = new GridItemInfo[6, 6];
         gridDigits = new List<GridItem>();
         if(gridRoute.Count > 0) gridRoute.Clear();
+        nowGridPrefab.Clear();
         for(int i = gridItemPrefab.transform.childCount - 1; i >= 0; i--)//删除地图子物体
         {
             GameObject.Destroy(gridItemPrefab.transform.GetChild(i).gameObject);
@@ -263,6 +270,10 @@ public class GridGame : MonoBehaviour
                 else if(nowStage == 2)
                 {
                     index = CustomsPass.customPassesStage2[nowPass - 1][i][j];
+                }
+                else if(nowStage == 3)
+                {
+                    index = CustomsPass.customPassesStage3[nowPass - 1][i][j];
                 }
                 if (index == 2) gridItemInfos[i, j].isSquare = true;  //是否为方形
                 else if (index == 3) gridItemInfos[i, j].isCircle = true;   //是否为圆形
@@ -289,6 +300,7 @@ public class GridGame : MonoBehaviour
                 GridItem Info = gameObject.GetComponent<GridItem>();
                 Info.itemInfo = gridItemInfos[i,j];
                 if (Info.itemInfo.isDigit) gridDigits.Add(Info); //如果是数字放进判定数组
+                nowGridPrefab.Add(Info);
                 gameObject.transform.SetParent(gridItemPrefab.transform, false); //��ʵ������������ΪgridItemPrefab��������
             }
         }
@@ -327,12 +339,58 @@ public class GridGame : MonoBehaviour
         }
 
         if (!gridRoute.Contains(itemInfo))//检查该节点是否在路径中
-        {   
+        {
+            int index = 0;
+            if (nowStage == 3)
+            {
+                index = Mirroring(itemInfo);
+                if (index == -1) return;
+            }
             itemInfo.highLight.SetActive(true); //被选高亮
             lastItem = itemInfo.itemInfo;       //上一个节点变为该节点
             gridItemInfos[itemInfo.itemInfo.index_i, itemInfo.itemInfo.index_j].value = 1;
             gridRoute.Add(itemInfo);
+
+            if(nowStage == 3 && index != -2)
+            {
+                int i = index / 10,j = index % 10;
+                nowGridPrefab[i * 6 + j].highLight.SetActive(true); //被选高亮
+                gridItemInfos[i, j].value = 1;
+                gridRoute.Add(nowGridPrefab[i * 6 + j]);
+            }
         }
+    }
+
+    public int Mirroring(GridItem itemInfo) //计算对称位置
+    {
+        if(nowPass <= 7)
+        {
+            functionInfo info = CustomsPass.functionInfos[nowPass - 1];
+            int x1 = itemInfo.itemInfo.index_j;
+            int y1 = itemInfo.itemInfo.index_i;
+            float d = math.abs(info.A * x1 + info.B * y1 + info.C) / math.sqrt(info.A * info.A + info.B * info.B);
+            int x2, y2;
+            if(info.A * x1 + info.B * y1 + info.C > 0)
+            {
+                Debug.Log(x1 - 2 * d * info.A / math.sqrt(info.A * info.A + info.B * info.B));
+                Debug.Log(y1 - 2 * d * info.B / math.sqrt(info.A * info.A + info.B * info.B));
+                x2 = (int)math.round(x1 - 2 * d * info.A / math.sqrt(info.A * info.A + info.B * info.B));
+                y2 = (int)math.round(y1 - 2 * d * info.B / math.sqrt(info.A * info.A + info.B * info.B));
+            }
+            else
+            {
+                Debug.Log(x1 + 2 * d * info.A / math.sqrt(info.A * info.A + info.B * info.B));
+                Debug.Log(y1 + 2 * d * info.B / math.sqrt(info.A * info.A + info.B * info.B));
+                x2 = (int)math.round(x1 + 2 * d * info.A / math.sqrt(info.A * info.A + info.B * info.B));
+                y2 = (int)math.round(y1 + 2 * d * info.B / math.sqrt(info.A * info.A + info.B * info.B));
+            }
+            if (x2 < 0 || x2 >= 6 || y2 < 0 || y2 >= 6) return -2; //对称位置超出地图
+            if (nowGridPrefab[y2 * 6 + x2].itemInfo.isDigit == false)//对称的对面不是数字
+            {
+                return y2 * 10 + x2;
+            }
+        }
+        return -1;
     }
 
     public void LastPass()

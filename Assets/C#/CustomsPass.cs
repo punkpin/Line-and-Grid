@@ -2,6 +2,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[System.Serializable]
+public class functionInfo
+{
+    // Ax + By + C = 0
+    public float A;
+    public float B;
+    public float C;
+}
+
+
 public class CustomsPass
 {
     //模拟关卡数据，0代表普通格子，2代表方格，3代表圆圈，
@@ -211,4 +221,116 @@ public class CustomsPass
             new int[6] { 0, -42, 0, 0, 0, 0 },
         }
     }; //关卡主题二
+    public static int[][][] customPassesStage3 = new int[10][][] //关卡主题三
+    {
+        new int[6][] //第一关
+        {
+            new int[6] { 0, 0, 0, 0, 0, 0 },
+            new int[6] { 0, 13, 0, 0, 0, 0 },
+            new int[6] { 2, 0, 0, 0, 0, 3 },
+            new int[6] { 0, 0, 0, 0, 0, 23 },
+            new int[6] { 0, 0, 0, 0, 0, 0 },
+            new int[6] { 0, 0, 0, 0, 0, 0 },
+        },
+        new int[6][] //第二关
+        {
+            new int[6] { 0, 0, 0, 0, 0, 0 },
+            new int[6] { 0, 11, 0, 0, 0, 0 },
+            new int[6] { 0, 0, 0, 0, 0, 0 },
+            new int[6] { 0, 0, 0, 0, 13, 0 },
+            new int[6] { 0, 0, 0, 0, 0, 0 },
+            new int[6] { 0, 3, 0, 0, 0, 2 },
+        },
+
+        new int[6][] //第三关
+        {
+            new int[6] { 2, 0, 0, 0, 0, 0 },
+            new int[6] { 0, 0, 21, 0, 0, 0 },
+            new int[6] { 0, 0, 0, 0, 0, 0 },
+            new int[6] { 0, 0, 0, 0, 13, 0 },
+            new int[6] { 0, 0, 0, 0, 0, 0 },
+            new int[6] { 0, 3, 0, 0, 0, 0 },
+        },
+
+        new int[6][] //第四关
+        {
+            new int[6] { 2, 0, 0, 0, 0, 20 },
+            new int[6] { 0, 0, 0, 23, 0, 0 },
+            new int[6] { 0, 0, 0, 0, 0, 0 },
+            new int[6] { 3, 0, 0, 0, 0, 0 },
+            new int[6] { 0, 17, 0, 0, 0, 0 },
+            new int[6] { 0, 0, 0, 0, 0, 0 },
+        },
+
+        new int[6][] //第五关
+        {
+            new int[6] { 2, 0, 0, 21, 0, 0 },
+            new int[6] { 0, 0, 0, 0, 0, 0 },
+            new int[6] { 0, 0, 0, 15, 0, 0 },
+            new int[6] { 0, 0, 0, 0, 0, 0 },
+            new int[6] { 0, 3, 0, 0, 0, 0 },
+            new int[6] { 0, 0, 21, 0, 0, 2 },
+        },
+
+        new int[6][] //第六关
+        {
+            new int[6] { 2, 0, 0, 0, 0, 2 },
+            new int[6] { 0, 0, 21, 0, 0, 0 },
+            new int[6] { 0, 0, 0, 0, 0, 13 },
+            new int[6] { 0, 12, 0, 0, 0, 0 },
+            new int[6] { 0, 0, 0, 0, 0, 0 },
+            new int[6] { 0, 0, 3, 0, 0, 3 },
+        },
+
+        new int[6][] //第七关
+        {
+            new int[6] { 0, 0, 0, 0, 0, 0 },
+            new int[6] { 0, 2, 0, 0, 14, 0 },
+            new int[6] { 0, 0, 0, 0, 0, 3 },
+            new int[6] { 0, 0, 0, 0, 0, 0 },
+            new int[6] { 0, 0, 0, 0, 0, 0 },
+            new int[6] { 0, 0, 22, 0, 0, 0 },
+        },
+
+        new int[6][] //第八关
+        {
+            new int[6] { 2, 0, 0, 0, 0, 0 },
+            new int[6] { 0, 0, 0, 0, 0, 0 },
+            new int[6] { 0, 0, 0, 0, 0, 0 },
+            new int[6] { 0, 13, 0, 0, 3, 0 },
+            new int[6] { 0, 0, 0, 0, 23, 0 },
+            new int[6] { 0, 0, 0, 0, 0, 0 },
+        },
+
+        new int[6][] //第九关
+        {
+            new int[6] { 0, 0, 0, 0, 0, 0 },
+            new int[6] { 0, 3, 0, 0, 0, 0 },
+            new int[6] { 0, 0, 2, 16, 0, 0 },
+            new int[6] { 0, 0, 0, 2, 0, 22 },
+            new int[6] { 0, 0, 0, 0, 3, 0 },
+            new int[6] { 0, 0, 0, 0, 0, 0 },
+        },
+
+        new int[6][] //第十关
+        {
+            new int[6] {3, 0, 0, 0, 0, 0 },
+            new int[6] { 0, 0, 0, 0, 0, 0 },
+            new int[6] { 0, 0, 0, 15, 0, 0 },
+            new int[6] { 0, 0, 0, 0, 2, 0 },
+            new int[6] { 0, 0, 0, 0, 0, 0 },
+            new int[6] { 0, 0, 0, 0, 14, 0 },
+        },
+    }; //关卡主题三
+
+    public static functionInfo[] functionInfos =
+    {
+        new functionInfo {A = 1, B = 0, C = -2.5f },
+        new functionInfo {A = 1, B = 0, C = -2.5f },
+        new functionInfo {A = 0, B = 1, C = -2.5f },
+        new functionInfo {A = 0, B = 1, C = -1.5f },
+        new functionInfo {A = -1, B = 1, C = 0 },
+        new functionInfo {A = 1, B = 0, C = -3.5f},
+        new functionInfo {A = -1, B = 1, C = 2f },
+    };
 }
