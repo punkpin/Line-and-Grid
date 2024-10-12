@@ -1,9 +1,11 @@
 using JetBrains.Annotations;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Collections;
 using Unity.Mathematics;
 using Unity.VisualScripting;
 using UnityEditor;
+using UnityEditor.PackageManager;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -340,59 +342,151 @@ public class GridGame : MonoBehaviour
 
         if (!gridRoute.Contains(itemInfo))//检查该节点是否在路径中
         {
-            int index = 0;
+            List<int> index = new List<int>();
             if (nowStage == 3)
             {
                 index = Mirroring(itemInfo);
-                if (index == -1) return;
+                if (index.Count != 0 && index[0] == -1) return;
             }
             itemInfo.highLight.SetActive(true); //被选高亮
             lastItem = itemInfo.itemInfo;       //上一个节点变为该节点
             gridItemInfos[itemInfo.itemInfo.index_i, itemInfo.itemInfo.index_j].value = 1;
             gridRoute.Add(itemInfo);
 
-            if(nowStage == 3 && index != -2)
+            if(nowStage == 3)
             {
-                int i = index / 10,j = index % 10;
-                nowGridPrefab[i * 6 + j].highLight.SetActive(true); //被选高亮
-                gridItemInfos[i, j].value = 1;
-                gridRoute.Add(nowGridPrefab[i * 6 + j]);
+                for(int k = 0; k < index.Count; k++)
+                {
+                    int i = index[k] / 10, j = index[k] % 10;
+                    if (i < 0 || i >= 6 || j < 0 || j >= 6) continue; //对称位置超出地图
+                    nowGridPrefab[i * 6 + j].highLight.SetActive(true);
+                    gridItemInfos[i, j].value = 1;
+                    gridRoute.Add(nowGridPrefab[i * 6 + j]);
+                }
             }
         }
     }
 
-    public int Mirroring(GridItem itemInfo) //计算对称位置
+    public List<int> Mirroring(GridItem itemInfo) //计算对称位置
     {
-        if(nowPass <= 7)
+        List<int> index = new List<int>();
+        List<int> Error = new List<int>();
+        int x1 = itemInfo.itemInfo.index_j;
+        int y1 = itemInfo.itemInfo.index_i;
+        Error.Add(-1);
+        if (nowPass <= 7)
         {
             functionInfo info = CustomsPass.functionInfos[nowPass - 1];
-            int x1 = itemInfo.itemInfo.index_j;
-            int y1 = itemInfo.itemInfo.index_i;
             float d = math.abs(info.A * x1 + info.B * y1 + info.C) / math.sqrt(info.A * info.A + info.B * info.B);
             int x2, y2;
             if(info.A * x1 + info.B * y1 + info.C > 0)
             {
-                Debug.Log(x1 - 2 * d * info.A / math.sqrt(info.A * info.A + info.B * info.B));
-                Debug.Log(y1 - 2 * d * info.B / math.sqrt(info.A * info.A + info.B * info.B));
                 x2 = (int)math.round(x1 - 2 * d * info.A / math.sqrt(info.A * info.A + info.B * info.B));
                 y2 = (int)math.round(y1 - 2 * d * info.B / math.sqrt(info.A * info.A + info.B * info.B));
             }
             else
             {
-                Debug.Log(x1 + 2 * d * info.A / math.sqrt(info.A * info.A + info.B * info.B));
-                Debug.Log(y1 + 2 * d * info.B / math.sqrt(info.A * info.A + info.B * info.B));
                 x2 = (int)math.round(x1 + 2 * d * info.A / math.sqrt(info.A * info.A + info.B * info.B));
                 y2 = (int)math.round(y1 + 2 * d * info.B / math.sqrt(info.A * info.A + info.B * info.B));
             }
-            if (x2 < 0 || x2 >= 6 || y2 < 0 || y2 >= 6) return -2; //对称位置超出地图
+            if (x2 < 0 || x2 >= 6 || y2 < 0 || y2 >= 6) return index;
             if (nowGridPrefab[y2 * 6 + x2].itemInfo.isDigit == false)//对称的对面不是数字
             {
-                return y2 * 10 + x2;
+                index.Add(y2 * 10 + x2);
+                return index;
             }
         }
-        return -1;
-    }
+        else if(nowPass == 8)
+        {
+            int x2 = (int)(2 * 3.5f - x1);
+            int y3 = (int)(2 * 2.5f - y1);
+            
+            if (x2 >= 0 && x2 < 6 && y1 >= 0 && y1 < 6) //在地图内
+            {
+                if (nowGridPrefab[y1 * 6 + x2].itemInfo.isDigit == false) index.Add(y1 * 10 + x2); //不为数字
+                else
+                {
+                    Debug.Log(y1 + " " + x2);
+                    return Error;
+                }
+                
+            }
+            if (x1 >= 0 && x1 < 6 && y3 >= 0 && y3 < 6)
+            {
+                if (nowGridPrefab[y3 * 6 + x1].itemInfo.isDigit == false) index.Add(y3 * 10 + x1);
+                else
+                {
+                    Debug.Log(y3 + " " + x1);
+                    return Error;
+                }
+            }
+            if (x2 >= 0 && x2 < 6 && y3 >= 0 && y3 < 6)
+            {
+                if (nowGridPrefab[y3 * 6 + x2].itemInfo.isDigit == false) index.Add(y3 * 10 + x2);
+                else
+                {
+                    Debug.Log(y3 + " " + x2);
+                    return Error;
+                }
 
+            }
+            return index;
+        }
+        else if(nowPass == 9)
+        {
+            int x2 = (int)(2 * 2.5f - x1);
+            int y3 = (int)(2 * 2.5f - y1);
+            if (x2 >= 0 && x2 < 6 && y3 >= 0 && y3 < 6)
+            {
+                if (nowGridPrefab[y3 * 6 + x2].itemInfo.isDigit == false) index.Add(y3 * 10 + x2);
+                else
+                {
+                    Debug.Log(y3 + " " + x2);
+                    return Error;
+                }
+            }
+            return index;
+        }
+        else if(nowPass == 10)
+        {
+            int x2, y2, x3, y3;
+            if ((x1 == 0 && y1 == 0) || (gridRoute.Count > 0 && gridRoute[0].itemInfo.index_i == 0 && gridRoute[0].itemInfo.index_j == 0)) //第10关就两种出发路线，干脆就枚举这两种可能好了
+            {
+                x2 = 4 + x1;
+                y2 = 2 + y1;
+                x3 = 3 - x1;
+                y3 = 5 - y1;
+            }
+            else
+            {
+                x2 = x1 - 4;
+                y2 = y1 - 2;
+                x3 = 7 - x1;
+                y3 = 8 - y1;
+            }
+            if (x2 >= 0 && x2 < 6 && y2 >= 0 && y2 < 6) //在地图内
+            {
+                if (nowGridPrefab[y2 * 6 + x2].itemInfo.isDigit == false) index.Add(y2 * 10 + x2); //不为数字
+                else
+                {
+                    Debug.Log(y2 + " " + x2);
+                    return Error;
+                }
+
+            }
+            if (x3 >= 0 && x3 < 6 && y3 >= 0 && y3 < 6)
+            {
+                if (nowGridPrefab[y3 * 6 + x3].itemInfo.isDigit == false) index.Add(y3 * 10 + x3);
+                else
+                {
+                    Debug.Log(y3 + " " + x3);
+                    return Error;
+                }
+            }
+            return index;
+        }
+        return Error;
+    }
     public void LastPass()
     {
         if (nowPass > 1)

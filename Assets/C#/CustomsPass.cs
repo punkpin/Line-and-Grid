@@ -316,7 +316,7 @@ public class CustomsPass
         {
             new int[6] {3, 0, 0, 0, 0, 0 },
             new int[6] { 0, 0, 0, 0, 0, 0 },
-            new int[6] { 0, 0, 0, 15, 0, 0 },
+            new int[6] { 0, 0, 0, 16, 0, 0 },
             new int[6] { 0, 0, 0, 0, 2, 0 },
             new int[6] { 0, 0, 0, 0, 0, 0 },
             new int[6] { 0, 0, 0, 0, 14, 0 },
