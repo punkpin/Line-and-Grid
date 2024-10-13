@@ -12,20 +12,18 @@ public struct Data{
 }
 public class GameMgr : MonoBehaviour
 {
-    public static void SaveData(int x){
-        string dataJosn=JsonUtility.ToJson(new Data(x));
-        Debug.Log(dataJosn);
-        string path=Path.Combine(Application.dataPath,"Data/gameLevelData.json");
+    public static void SaveData(int c,int x){
+        string dataJson=JsonUtility.ToJson(new Data(x));
+        string path=Path.Combine(Application.dataPath,$"Data/gameLevelDataChapter{c}.json");
         using(StreamWriter sw=new StreamWriter(path)){
-            sw.Write(dataJosn);
+            sw.Write(dataJson);
         }
-        Debug.Log(path);
     }
     public static Data LoadData(){
-        string dataJosn;
+        string dataJson;
         using(StreamReader sr=new StreamReader(Path.Combine(Application.dataPath,"Data/gameLevelData.json"))){
-            dataJosn=sr.ReadToEnd();
+            dataJson=sr.ReadToEnd();
         }
-        return JsonUtility.FromJson<Data>(dataJosn);
+        return JsonUtility.FromJson<Data>(dataJson);
     }
 }

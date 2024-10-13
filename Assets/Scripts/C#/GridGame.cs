@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GridGame : MonoBehaviour
 {
@@ -23,12 +24,14 @@ public class GridGame : MonoBehaviour
 
     public GridItemInfo[,] gridItemInfos;   //目前的地图
     public GameObject gridItemPrefab;                               //��ͼ����
-    public int nowPass = 1; //目前的关卡数
+    public int nowPass = 1; //
+    public int nowChapter = 1;
     
     public List<GridItem> gridRoute; //游戏路线
     public GridItemInfo lastItem = new GridItemInfo();  //上一格(用于判断路径是否合法)
     public List<GridItem> gridDigits;
     public bool inCheck;    //是否正在检查
+    public Button NextLevelButton;
 
     private void Start() 
     {
@@ -99,7 +102,11 @@ public class GridGame : MonoBehaviour
         }
 
         StartCoroutine(ClearRoute());
-        if (isRight) Debug.Log("恭喜过关！！！");
+        if (isRight)
+        {
+            nowPass++;
+            GameMgr.SaveData(nowChapter,nowPass);
+        }
         
     }
 
@@ -116,6 +123,12 @@ public class GridGame : MonoBehaviour
 
     public void LoadGrid() //加载地图
     {
+        if(GameMgr.LoadData().currentLevel==nowPass){
+            NextLevelButton.interactable=false;
+        }
+        else{
+            NextLevelButton.interactable=true;
+        }
         lastItem.index_i = -1; //开始时上一个路径为空
         inCheck = false;
         gridItemInfos = new GridItemInfo[6, 6];

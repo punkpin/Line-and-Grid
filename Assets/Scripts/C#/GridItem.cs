@@ -8,47 +8,47 @@ using UnityEngine.UI;
 [System.Serializable]
 public class GridItemInfo
 {
-    public int value;          //¸ñ×ÓÊý×Ö
-    public int index_i;        // i×ø±ê
-    public int index_j;        // j×ø±ê
-    public bool isDigit;       //ÊÇ·ñÎªÊý×Ö
-    public bool isSquare;      //ÊÇ·ñÎª·½ÐÎ
-    public bool isCircle;       //ÊÇ·ñÎªÔ²ÐÎ
+    public int value;          //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+    public int index_i;        // iï¿½ï¿½ï¿½ï¿½
+    public int index_j;        // jï¿½ï¿½ï¿½ï¿½
+    public bool isDigit;       //ï¿½Ç·ï¿½Îªï¿½ï¿½ï¿½ï¿½
+    public bool isSquare;      //ï¿½Ç·ï¿½Îªï¿½ï¿½ï¿½ï¿½
+    public bool isCircle;       //ï¿½Ç·ï¿½ÎªÔ²ï¿½ï¿½
 }
 
 /// <summary>
-/// ¸ñ×Ó»ùÀà
+/// ï¿½ï¿½ï¿½Ó»ï¿½ï¿½ï¿½
 /// </summary>
 public class GridItem : MonoBehaviour
 {
     public GridItemInfo itemInfo = new GridItemInfo();
-    public GameObject iconDigit;          //»ñÈ¡Í¼±ê
-    public GameObject iconShape;          //»ñÈ¡Í¼±ê
-    public GameObject selected;      //Êó±êÊÇ·ñ¾­¹ý
-    public GameObject highLight;     //ÊÇ·ñ±»Ñ¡
+    public GameObject iconDigit;          //ï¿½ï¿½È¡Í¼ï¿½ï¿½
+    public GameObject iconShape;          //ï¿½ï¿½È¡Í¼ï¿½ï¿½
+    public GameObject selected;      //ï¿½ï¿½ï¿½ï¿½Ç·ñ¾­¹ï¿½
+    public GameObject highLight;     //ï¿½Ç·ï¿½Ñ¡
     public bool isMouseOver;
 
 
-    //public void OnPointerEnter(PointerEventData eventData)//Êó±ê½øÈë¸ÃUIÊ±
+    //public void OnPointerEnter(PointerEventData eventData)//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½UIÊ±
     //{
     //    selected.transform.gameObject.SetActive(true);
-    //    if (itemInfo.isDigit) //Èç¹û¸Ã½ÚµãÊÇÊý×Ö
+    //    if (itemInfo.isDigit) //ï¿½ï¿½ï¿½ï¿½Ã½Úµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
     //    {
-    //        int[] dx = {0,0,1,-1,1,1,-1,-1};    //8¸ö·½Ïò
+    //        int[] dx = {0,0,1,-1,1,1,-1,-1};    //8ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
     //        int[] dy = {1,-1,0,0,-1,1,1,-1};
     //        for(int k = 0; k < 8; k++)
     //        {
     //            int nx = itemInfo.index_i + dx[k];
     //            int ny = itemInfo.index_j + dy[k];
-    //            if(nx < 0 || nx >= 6 || ny < 0 || ny >= 6) continue;//³¬³ö±ß½ç
-    //            GameObject aroundItem = GridGame.Instance.gridItemPrefab.transform.GetChild(nx * 6 + ny).gameObject;//»ñÈ¡ÖÜÎ§µÄGameobject
-    //            GridItem aroundGridItem = aroundItem.GetComponent<GridItem>();//»ñÈ¡×é¼þ
-    //            aroundGridItem.selected.transform.gameObject.SetActive(true);//½«±»Ñ¡¶¨¸ÄÎªtrue
+    //            if(nx < 0 || nx >= 6 || ny < 0 || ny >= 6) continue;//ï¿½ï¿½ï¿½ï¿½ï¿½ß½ï¿½
+    //            GameObject aroundItem = GridGame.Instance.gridItemPrefab.transform.GetChild(nx * 6 + ny).gameObject;//ï¿½ï¿½È¡ï¿½ï¿½Î§ï¿½ï¿½Gameobject
+    //            GridItem aroundGridItem = aroundItem.GetComponent<GridItem>();//ï¿½ï¿½È¡ï¿½ï¿½ï¿½
+    //            aroundGridItem.selected.transform.gameObject.SetActive(true);//ï¿½ï¿½ï¿½ï¿½Ñ¡ï¿½ï¿½ï¿½ï¿½Îªtrue
     //        }
     //    }
     //}
 
-    //public void OnPointerExit(PointerEventData eventData)//Êó±êÀë¿ª¸ÃUIÊ±
+    //public void OnPointerExit(PointerEventData eventData)//ï¿½ï¿½ï¿½ï¿½ë¿ªï¿½ï¿½UIÊ±
     //{
     //    selected.transform.gameObject.SetActive(false);
     //    if (itemInfo.isDigit)
@@ -62,41 +62,41 @@ public class GridItem : MonoBehaviour
     //            if (nx < 0 || nx >= 6 || ny < 0 || ny >= 6) continue;
     //            GameObject aroundItem = GridGame.Instance.gridItemPrefab.transform.GetChild(nx * 6 + ny).gameObject;
     //            GridItem aroundGridItem = aroundItem.GetComponent<GridItem>();
-    //            aroundGridItem.selected.transform.gameObject.SetActive(false);//½«±»Ñ¡¶¨¸ÄÎªfalse
+    //            aroundGridItem.selected.transform.gameObject.SetActive(false);//ï¿½ï¿½ï¿½ï¿½Ñ¡ï¿½ï¿½ï¿½ï¿½Îªfalse
     //        }
     //    }
     //}
 
     public void Update()
     {
-        if(isMouseOver && Input.GetMouseButton(0) && !itemInfo.isDigit&&!GridGame.Instance.isAnimPlaying)
+        if(isMouseOver && Input.GetMouseButton(0) && !itemInfo.isDigit)
         {
-            GridGame.Instance.AddRoute(this.gameObject.GetComponent<GridItem>()); // ½«ÔªËØÐÅÏ¢´«µÝ
+            GridGame.Instance.AddRoute(this.gameObject.GetComponent<GridItem>()); // ï¿½ï¿½Ôªï¿½ï¿½ï¿½ï¿½Ï¢ï¿½ï¿½ï¿½ï¿½
         }
     }
 
 
-    public virtual void OnMouseEnter() //µ±Êó±ê½øÈëUIÊ±
+    public virtual void OnMouseEnter() //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½UIÊ±
     {
         selected.SetActive(true);
-        if (itemInfo.isDigit) //Èç¹û¸Ã½ÚµãÊÇÊý×Ö
+        if (itemInfo.isDigit) //ï¿½ï¿½ï¿½ï¿½Ã½Úµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
         {
-            int[] dx = { 0, 0, 1, -1, 1, 1, -1, -1 };    //8¸ö·½Ïò
+            int[] dx = { 0, 0, 1, -1, 1, 1, -1, -1 };    //8ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
             int[] dy = { 1, -1, 0, 0, -1, 1, 1, -1 };
             for (int k = 0; k < 8; k++)
             {
                 int nx = itemInfo.index_i + dx[k];
                 int ny = itemInfo.index_j + dy[k];
-                if (nx < 0 || nx >= 6 || ny < 0 || ny >= 6) continue;//³¬³ö±ß½ç
-                GameObject aroundItem = GridGame.Instance.gridItemPrefab.transform.GetChild(nx * 6 + ny).gameObject;//»ñÈ¡ÖÜÎ§µÄGameobject
-                GridItem aroundGridItem = aroundItem.GetComponent<GridItem>();//»ñÈ¡×é¼þ
-                aroundGridItem.selected.transform.gameObject.SetActive(true);//½«±»Ñ¡¶¨¸ÄÎªtrue
+                if (nx < 0 || nx >= 6 || ny < 0 || ny >= 6) continue;//ï¿½ï¿½ï¿½ï¿½ï¿½ß½ï¿½
+                GameObject aroundItem = GridGame.Instance.gridItemPrefab.transform.GetChild(nx * 6 + ny).gameObject;//ï¿½ï¿½È¡ï¿½ï¿½Î§ï¿½ï¿½Gameobject
+                GridItem aroundGridItem = aroundItem.GetComponent<GridItem>();//ï¿½ï¿½È¡ï¿½ï¿½ï¿½
+                aroundGridItem.selected.transform.gameObject.SetActive(true);//ï¿½ï¿½ï¿½ï¿½Ñ¡ï¿½ï¿½ï¿½ï¿½Îªtrue
             }
         }
         isMouseOver = true;
     }
 
-    public virtual void OnMouseExit()  //µ±Êó±êÀë¿ªUIÊ±
+    public virtual void OnMouseExit()  //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ë¿ªUIÊ±
     {
         selected.SetActive(false);
         if (itemInfo.isDigit)
@@ -110,7 +110,7 @@ public class GridItem : MonoBehaviour
                 if (nx < 0 || nx >= 6 || ny < 0 || ny >= 6) continue;
                 GameObject aroundItem = GridGame.Instance.gridItemPrefab.transform.GetChild(nx * 6 + ny).gameObject;
                 GridItem aroundGridItem = aroundItem.GetComponent<GridItem>();
-                aroundGridItem.selected.transform.gameObject.SetActive(false);//½«±»Ñ¡¶¨¸ÄÎªfalse
+                aroundGridItem.selected.transform.gameObject.SetActive(false);//ï¿½ï¿½ï¿½ï¿½Ñ¡ï¿½ï¿½ï¿½ï¿½Îªfalse
             }
         }
         isMouseOver = false;
@@ -119,19 +119,19 @@ public class GridItem : MonoBehaviour
 
     public void Start()
     {
-        if (itemInfo.isDigit)  //Èç¹ûÊÇÊý×Ö
+        if (itemInfo.isDigit)  //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
         {
             SpriteRenderer spriteRenderer = iconDigit.GetComponent<SpriteRenderer>();
             spriteRenderer.sprite = Resources.Load<Sprite>("Sprite/Num/" + itemInfo.value);
             iconDigit.SetActive(true);
         }
-        else if (itemInfo.isSquare) //Èç¹ûÊÇ·½ÐÎ
+        else if (itemInfo.isSquare) //ï¿½ï¿½ï¿½ï¿½Ç·ï¿½ï¿½ï¿½
         {
             SpriteRenderer spriteRenderer = iconShape.GetComponent<SpriteRenderer>();
             spriteRenderer.sprite = Resources.Load<Sprite>("Sprite/Green Square");
             iconShape.SetActive(true);
         }
-        else if (itemInfo.isCircle) //Èç¹ûÊÇÔ²ÐÎ
+        else if (itemInfo.isCircle) //ï¿½ï¿½ï¿½ï¿½ï¿½Ô²ï¿½ï¿½
         {
             SpriteRenderer spriteRenderer = iconShape.GetComponent<SpriteRenderer>();
             spriteRenderer.sprite = Resources.Load<Sprite>("Sprite/Red Circle");
