@@ -13,9 +13,15 @@ public class GridItemUI : MonoBehaviour
     private void Start()
     {
         if(isDigit) text.text = digit.ToString();
-        if(digitalType == 1) text.color = Color.white;
-        else if(digitalType == 2) text.color = Color.black;
-        else if (digitalType == 3) text.color = Color.green;
-        else if (digitalType == 4) text.color = Color.red;
+        Color color;
+        if(digitalType == 1) ColorUtility.TryParseHtmlString("#FFFFFF", out color);      //°×
+        else if(digitalType == 2) ColorUtility.TryParseHtmlString("#000000", out color); //ºÚ
+        else if (digitalType == 3) ColorUtility.TryParseHtmlString("#33F43B", out color);//ÂÌ
+        else if (digitalType == 4) ColorUtility.TryParseHtmlString("#F43434", out color);//ºì
+        else if (digitalType == 5) ColorUtility.TryParseHtmlString("#00BDF7", out color);//À¶
+        else ColorUtility.TryParseHtmlString("#EC862B", out color);//³È
+
+
+        text.color = color;
     }
 }

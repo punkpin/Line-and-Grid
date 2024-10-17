@@ -93,6 +93,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   digit: -1
+  isDigit: 0
+  digitalType: 0
   text: {fileID: 7843026813588054794}
 --- !u!1 &3550409242062408437
 GameObject:

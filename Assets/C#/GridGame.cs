@@ -5,7 +5,6 @@ using Unity.Collections;
 using Unity.Mathematics;
 using Unity.VisualScripting;
 using UnityEditor;
-using UnityEditor.PackageManager;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -40,7 +39,6 @@ public class GridGame : MonoBehaviour
     public Button NextLevelButton; //下一关按钮
     public Button PrevLevelButton; //上一关按钮
     public bool isPass; //是否过关
-
     private void Start() 
     {
         LoadGrid();
@@ -63,13 +61,14 @@ public class GridGame : MonoBehaviour
             return;//如果游戏线路为空就先返回
         }
 
-        StartCoroutine(ClearRoute());
+        
         if (CheckDigit() && CheckShape()) {
             NextLevelButton.interactable = true;
-            if (nowPass + 1 > GameMgr.LoadData().currentLevel) GameMgr.SaveData(nowPass + 1);
+            //if (nowPass + 1 > GameMgr.LoadData().currentLevel) GameMgr.SaveData(nowPass + 1);
             Debug.Log("恭喜过关！！！");
             isPass = true;
         }
+        StartCoroutine(ClearRoute());
     }
     
     public bool CheckShape()//形状判断
@@ -197,6 +196,40 @@ public class GridGame : MonoBehaviour
 
                 }
             }
+            else if(gridDigits[i].itemInfo.digitalType == 5) //为蓝色数字
+            {
+                int a = 0, b = 0;//a为被经过的格子，b为未被经过的格子
+                for (int k = 0; k < 8; k++)
+                {
+                    int nx = tx + dx[k], ny = ty + dy[k]; 
+                    if (nx < 0 || nx >= 6 || ny < 0 || ny >= 6) continue;
+                    if (gridItemInfos[nx, ny].value == 1 && gridItemInfos[nx, ny].isDigit == false) a++; //周围是路径就减一
+                    else b++;
+                }
+                if (a - b != value)
+                {
+                    Debug.Log("(" + (tx + 1) + "," + (ty + 1) + ")位置的数字未满足或超过");
+
+                    isRight = false;
+                }
+            }
+            else if(gridDigits[i].itemInfo.digitalType == 5) //为橙色格子
+            {
+                int a = 0, b = 0;//a为被经过的格子，b为未被经过的格子
+                for (int k = 0; k < 8; k++)
+                {
+                    int nx = tx + dx[k], ny = ty + dy[k];
+                    if (nx < 0 || nx >= 6 || ny < 0 || ny >= 6) continue;
+                    if (gridItemInfos[nx, ny].value == 1 && gridItemInfos[nx, ny].isDigit == false) a++; //周围是路径就减一
+                    else b++;
+                }
+                if (a * (a - b) != value)
+                {
+                    Debug.Log("(" + (tx + 1) + "," + (ty + 1) + ")位置的数字未满足或超过");
+
+                    isRight = false;
+                }
+            }
         }
         return isRight;
     }
@@ -238,7 +271,8 @@ public class GridGame : MonoBehaviour
         {
             PrevLevelButton.gameObject.SetActive(true);
         }
-        if (GameMgr.LoadData().currentLevel == nowPass || nowPass == 10)
+        //GameMgr.LoadData().currentLevel == nowPass ||
+        if ( nowPass == 10)
         {
             NextLevelButton.gameObject.SetActive(false);
         }
@@ -277,19 +311,23 @@ public class GridGame : MonoBehaviour
                 {
                     index = CustomsPass.customPassesStage3[nowPass - 1][i][j];
                 }
+                else if(nowStage == 4)
+                {
+                    index = CustomsPass.customPassesStage4[nowPass - 1][i][j];
+                }
                 if (index == 2) gridItemInfos[i, j].isSquare = true;  //是否为方形
                 else if (index == 3) gridItemInfos[i, j].isCircle = true;   //是否为圆形
                 else if (index != 0)
                 {
                     gridItemInfos[i,j].isDigit = true; //是否为数字
-                    gridItemInfos[i, j].value = index % 10;
-                    gridItemInfos[i, j].digitalType = Mathf.Abs(index / 10);
+                    gridItemInfos[i, j].value = index % 10000;
+                    gridItemInfos[i, j].digitalType = Mathf.Abs(index / 10000);
                 }
                 gridItemInfos[i, j].index_i = i;
                 gridItemInfos[i, j].index_j = j;
             }
         }
-
+        
         for (int i = 0; i < 6; i++)//����ͼԪ�طŵ���ͼ��ȥ
         {
             for (int j = 0; j < 6; j++)
