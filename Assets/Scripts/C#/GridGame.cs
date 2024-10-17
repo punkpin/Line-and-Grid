@@ -123,7 +123,7 @@ public class GridGame : MonoBehaviour
 
     public void LoadGrid() //加载地图
     {
-        if(GameMgr.LoadData().currentLevel==nowPass){
+        if(GameMgr.LoadData(1).currentLevel==nowPass){
             NextLevelButton.interactable=false;
         }
         else{
