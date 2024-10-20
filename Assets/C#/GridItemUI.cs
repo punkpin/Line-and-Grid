@@ -20,7 +20,7 @@ public class GridItemUI : MonoBehaviour
             else
             {
                 if (digit > 0) text.fontSize = 80;
-                else text.fontSize = 69;
+                else text.fontSize = 65;
                 text.text = $"{digit / 100}/{math.abs(digit) % 10}";
             }
         }

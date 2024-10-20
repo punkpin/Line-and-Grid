@@ -77,7 +77,7 @@ public class GridGame : MonoBehaviour
             }
         }
         
-        if (CustomsPass.passRecord[nowPass - 1][nowStage - 1] == false)
+        if (CustomsPass.passRecord[nowStage - 1][nowPass - 1] == false)
         {
             CustomsPass.routeRecord[(nowStage - 1) * 10 + nowPass - 1].Clear();
             for (int i = 0; i < gridRoute.Count; i++)
@@ -305,6 +305,8 @@ public class GridGame : MonoBehaviour
         {
             LoadGrid();
             GameAudio.Instance.Wrong();
+            flicker.Instance.startFlick();
+            prevRoute(false);
         }
     }
 
