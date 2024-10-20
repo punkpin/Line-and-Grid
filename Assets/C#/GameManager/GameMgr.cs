@@ -12,20 +12,31 @@ public struct Data{
 }
 public class GameMgr : MonoBehaviour
 {
-    public static void SaveData(int x){
-        string dataJosn=JsonUtility.ToJson(new Data(x));
-        Debug.Log("当前关卡进度" + dataJosn);
-        string path=Path.Combine(Application.dataPath,"Data/gameLevelData.json");
+    public static void SaveData(int c,int x){
+        string dataJson=JsonUtility.ToJson(new Data(x));
+        string path=Path.Combine(Application.persistentDataPath,$"gameLevelDataChapter{c}.json");
         using(StreamWriter sw=new StreamWriter(path)){
-            sw.Write(dataJosn);
+            sw.Write(dataJson);
         }
-        Debug.Log(path);
     }
-    public static Data LoadData(){
-        string dataJosn;
-        using(StreamReader sr=new StreamReader(Path.Combine(Application.dataPath,"Data/gameLevelData.json"))){
-            dataJosn=sr.ReadToEnd();
+    public static Data LoadData(int c){
+        string dataJson;
+        using(StreamReader sr=new StreamReader(Path.Combine(Application.persistentDataPath,$"gameLevelDataChapter{c}.json"))){
+            dataJson=sr.ReadToEnd();
         }
-        return JsonUtility.FromJson<Data>(dataJosn);
+        return JsonUtility.FromJson<Data>(dataJson);
+    }
+
+    private void Awake()
+    {
+        for (int c = 2; c <= 4; c++)
+        {
+            if (!File.Exists(Path.Combine(Application.persistentDataPath,$"gameLevelDataChapter{c}.json")))
+            {
+                SaveData(c,0);
+            }
+        }
+        if(!File.Exists(Path.Combine(Application.persistentDataPath,"gameLevelDataChapter1.json")))
+            SaveData(1,1);
     }
 }
