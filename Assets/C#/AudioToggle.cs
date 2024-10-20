@@ -31,6 +31,7 @@ public class AudioToggle : MonoBehaviour
             rectTransform.DOMove(!arg0
                 ? new Vector3((rightBoundary - leftBoundary) / 4 + leftBoundary, rectTransform.position.y, 0)
                 : new Vector3(rightBoundary - (rightBoundary - leftBoundary) / 4, rectTransform.position.y, 0), 0.1f);
+            AudioListener.pause = !arg0;
         } 
         );
     }
