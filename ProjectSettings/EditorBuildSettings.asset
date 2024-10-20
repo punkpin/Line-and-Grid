@@ -29,4 +29,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Cancel.unity
     guid: 78b217f6799894248bd3b552903159cf
+  - enabled: 1
+    path: Assets/Scenes/Credits.unity
+    guid: 853ae8ecc62d3fd479aaa239a600685d
   m_configObjects: {}
