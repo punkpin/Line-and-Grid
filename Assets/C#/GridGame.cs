@@ -8,7 +8,6 @@ using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
-using static UnityEditor.Progress;
 
 public class GridGame : MonoBehaviour
 {
@@ -41,8 +40,9 @@ public class GridGame : MonoBehaviour
     public Button NextLevelButton; //下一关按钮
     public Button PrevLevelButton; //上一关按钮
     public bool isPass; //是否过关
-    private void Start() 
+    private void Start()
     {
+        nowPass = GameMgr.CurrentLevel;
         LoadGrid();
     }
 

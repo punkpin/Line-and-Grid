@@ -9,18 +9,6 @@ public class ButtonEvents : MonoBehaviour
     {
         GameMgr.LoadScene(sceneName);
     }
-
-    public void FullScreen()
-    {
-        if (Screen.fullScreen)
-        {
-            Screen.SetResolution(1920, 1080, false);
-        }
-        else
-        {
-            Screen.fullScreen = true;
-        }
-    }
     public static void LoadSceneAndBackup(string name)
     {
         GameMgr.LoadSceneAndBackup(name);
@@ -30,7 +18,11 @@ public class ButtonEvents : MonoBehaviour
     {
         Application.Quit();
     }
-
+    public void LoadNewSceneAdditive(string name)
+    {
+        GameMgr.CurrentLevel = GridGame.Instance?GridGame.Instance.nowPass:1;
+        GameMgr.LoadSceneAndBackup(name);
+    }
     public void CancelQuit()
     {
         GameMgr.LoadSceneAndBackup("Start");

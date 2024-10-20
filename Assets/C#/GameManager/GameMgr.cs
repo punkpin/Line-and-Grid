@@ -14,6 +14,7 @@ public struct Data{
 }
 public class GameMgr : MonoBehaviour
 {
+    public static int CurrentLevel = 0;
     public static void SaveData(int c,int x){
         string dataJson=JsonUtility.ToJson(new Data(x));
         string path=Path.Combine(Application.persistentDataPath,$"gameLevelDataChapter{c}.json");
@@ -31,6 +32,7 @@ public class GameMgr : MonoBehaviour
 
     private void Awake()
     {
+        DontDestroyOnLoad(gameObject);
         for (int c = 2; c <= 4; c++)
         {
             if (!File.Exists(Path.Combine(Application.persistentDataPath,$"gameLevelDataChapter{c}.json")))
@@ -47,10 +49,18 @@ public class GameMgr : MonoBehaviour
     {
         if (name.Equals(""))
         {
-            SceneManager.LoadScene(LastUnclearSceneName);
+            AsyncOperation temp=SceneManager.LoadSceneAsync(LastUnclearSceneName);
+            while (temp.isDone)
+            {
+                GridGame.Instance.nowPass = CurrentLevel;
+            }
         }
         else
         {
+            if (name.Equals("Select"))
+            {
+                CurrentLevel = 1;
+            }
             SceneManager.LoadScene(name);
         }
     }
