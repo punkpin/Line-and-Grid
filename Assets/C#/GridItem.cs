@@ -27,6 +27,7 @@ public class GridItem : MonoBehaviour
     public GameObject iconShape;          //获取图标
     public GameObject selected;      //鼠标是否经过
     public GameObject highLight;     //是否被选
+    public GameObject lowLight;      //记录路径的颜色
     public bool isMouseOver;
 
 
@@ -131,13 +132,13 @@ public class GridItem : MonoBehaviour
         {
             SpriteRenderer spriteRenderer = iconShape.GetComponent<SpriteRenderer>();
             spriteRenderer.sprite = Resources.Load<Sprite>("Sprite/Green Square");
-            iconShape.SetActive(true);
+            if(itemInfo.digitalType == 0) iconShape.SetActive(true); //如果digitalType等于0就显示
         }
         else if (itemInfo.isCircle) //如果是圆形
         {
             SpriteRenderer spriteRenderer = iconShape.GetComponent<SpriteRenderer>();
             spriteRenderer.sprite = Resources.Load<Sprite>("Sprite/Red Circle");
-            iconShape.SetActive(true);
+            if (itemInfo.digitalType == 0) iconShape.SetActive(true);
         }
 
     }
