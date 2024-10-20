@@ -173,7 +173,7 @@ MonoBehaviour:
   nowGridPrefab: []
   gridItemPrefab: {fileID: 2039319639}
   nowPass: 1
-  nowStage: 3
+  nowStage: 4
   gridRoute: []
   lastItem:
     value: 0
