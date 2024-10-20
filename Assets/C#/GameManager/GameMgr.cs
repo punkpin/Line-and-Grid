@@ -3,6 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+
 [Serializable]
 public struct Data{
         public int currentLevel;
@@ -38,5 +40,24 @@ public class GameMgr : MonoBehaviour
         }
         if(!File.Exists(Path.Combine(Application.persistentDataPath,"gameLevelDataChapter1.json")))
             SaveData(1,1);
+    }
+    static string LastUnclearSceneName;
+
+    public static void LoadScene(string name)
+    {
+        if (name.Equals(""))
+        {
+            SceneManager.LoadScene(LastUnclearSceneName);
+        }
+        else
+        {
+            SceneManager.LoadScene(name);
+        }
+    }
+
+    public static void LoadSceneAndBackup(string name)
+    {
+        LastUnclearSceneName = SceneManager.GetActiveScene().name;
+        SceneManager.LoadScene(name);
     }
 }
