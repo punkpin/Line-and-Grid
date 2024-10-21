@@ -297,6 +297,7 @@ public class GridGame : MonoBehaviour
         isAnimPlaying = false;
         if (isPass == true) //如果通关
         {
+            
             int len = CustomsPass.routeRecord[(nowStage - 1) * 10 + nowPass - 1].Count;
             int nx = CustomsPass.routeRecord[(nowStage - 1) * 10 + nowPass - 1][0] / 10;
             int ny = CustomsPass.routeRecord[(nowStage - 1) * 10 + nowPass - 1][0] % 10;
@@ -306,7 +307,16 @@ public class GridGame : MonoBehaviour
             nowGridPrefab[nx * 6 + ny].PlayParticleSystem();
             GameAudio.Instance.Correct();
             yield return new WaitForSeconds(0.5f); // 可根据需要调整延迟时间
-            NextPass();
+            if (nowPass == 10)
+            {
+                 GameMgr.SaveData(nowStage+1,1);
+                 GameMgr.LoadScene("Select");
+            }
+            else
+            {
+                NextPass();
+            }
+            
             
         }
         else
@@ -339,6 +349,20 @@ public class GridGame : MonoBehaviour
         {
             NextLevelButton.gameObject.SetActive(true);
         }
+        
+        if (nowPass > GameMgr.LoadData(nowStage).currentLevel)
+        {
+            GameMgr.SaveData(nowStage, nowPass);
+        }
+
+        if (GameMgr.LoadData(nowStage).currentLevel == nowPass)
+        {
+            NextLevelButton.interactable = false;
+        }
+        else
+        {
+            NextLevelButton.interactable = true;
+        }
         lastItem.index_i = -1; //开始时上一个路径为空
         isAnimPlaying = false;
         isPass = false;
@@ -360,7 +384,6 @@ public class GridGame : MonoBehaviour
                 if(nowStage == 1)
                 {
                     index = CustomsPass.customPassesStage1[nowPass - 1][i][j];
-
                 }
                 else if(nowStage == 2)
                 {
