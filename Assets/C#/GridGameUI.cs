@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GridGameUI : MonoBehaviour
 {
@@ -19,6 +20,7 @@ public class GridGameUI : MonoBehaviour
 
 
     public GameObject gridItemUIPrefab;
+    public Text nowPassText;
 
     public void LoadGridUI()
     {
@@ -46,8 +48,23 @@ public class GridGameUI : MonoBehaviour
                 gameObjectUI.transform.SetParent(gridItemUIPrefab.transform, false);
 
             }
-        }
+        } 
 
-        
+        if(GridGame.Instance.nowStage == 1)
+        {
+            nowPassText.text = $"P-1-{GridGame.Instance.nowPass}";
+        }
+        else if(GridGame.Instance.nowStage == 2)
+        {
+            nowPassText.text = $"N-1-{GridGame.Instance.nowPass}";
+        }
+        else if (GridGame.Instance.nowStage == 3)
+        {
+            nowPassText.text = $"P-2-{GridGame.Instance.nowPass}";
+        }
+        else
+        {
+            nowPassText.text = $"N-2-{GridGame.Instance.nowPass}";
+        }
     }
 }

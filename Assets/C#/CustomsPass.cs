@@ -445,6 +445,13 @@ public class CustomsPass
         new bool[10] {false,false,false,false,false,false,false,false,false,false },
         new bool[10] {false,false,false,false,false,false,false,false,false,false },
     };
+    public static bool[][] prevPassRecord = new bool[4][] //上一次通关记录
+    {
+        new bool[10] {false,false,false,false,false,false,false,false,false,false },
+        new bool[10] {false,false,false,false,false,false,false,false,false,false },
+        new bool[10] {false,false,false,false,false,false,false,false,false,false },
+        new bool[10] {false,false,false,false,false,false,false,false,false,false },
+    };
 
     public static List<List<int>> routeRecord = new List<List<int>> //路径记录
     {

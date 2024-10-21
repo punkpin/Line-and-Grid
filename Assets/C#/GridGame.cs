@@ -66,10 +66,10 @@ public class GridGame : MonoBehaviour
         
         if (CheckDigit() && CheckShape()) {
             NextLevelButton.interactable = true;
-            //if (nowPass + 1 > GameMgr.LoadData().currentLevel) GameMgr.SaveData(nowPass + 1);
             Debug.Log("恭喜过关！！！");
             isPass = true;
             CustomsPass.passRecord[nowStage - 1][nowPass - 1] = true;
+            CustomsPass.prevPassRecord[nowStage - 1][nowPass - 1] = true; //上一次通关
             CustomsPass.routeRecord[(nowStage - 1) * 10 + nowPass - 1].Clear();
             for (int i = 0; i < gridRoute.Count; i++)
             {
@@ -77,16 +77,15 @@ public class GridGame : MonoBehaviour
             }
         }
         
-        if (CustomsPass.passRecord[nowStage - 1][nowPass - 1] == false)
+        if (isPass == false)
         {
             CustomsPass.routeRecord[(nowStage - 1) * 10 + nowPass - 1].Clear();
             for (int i = 0; i < gridRoute.Count; i++)
             {
                 CustomsPass.routeRecord[(nowStage - 1) * 10 + nowPass - 1].Add(gridRoute[i].itemInfo.index_i * 10 + gridRoute[i].itemInfo.index_j);
             }
+            CustomsPass.prevPassRecord[nowStage - 1][nowPass - 1] = false;//上一次没通关
         }
-        
-
         StartCoroutine(ClearRoute());
     }
     
@@ -298,15 +297,27 @@ public class GridGame : MonoBehaviour
         isAnimPlaying = false;
         if (isPass == true) //如果通关
         {
-            NextPass();
+            int len = CustomsPass.routeRecord[(nowStage - 1) * 10 + nowPass - 1].Count;
+            int nx = CustomsPass.routeRecord[(nowStage - 1) * 10 + nowPass - 1][0] / 10;
+            int ny = CustomsPass.routeRecord[(nowStage - 1) * 10 + nowPass - 1][0] % 10;
+            nowGridPrefab[nx * 6 + ny].PlayParticleSystem();                 //释放特效
+            nx = CustomsPass.routeRecord[(nowStage - 1) * 10 + nowPass - 1][len - 1] / 10;
+            ny = CustomsPass.routeRecord[(nowStage - 1) * 10 + nowPass - 1][len - 1] % 10;
+            nowGridPrefab[nx * 6 + ny].PlayParticleSystem();
             GameAudio.Instance.Correct();
+            yield return new WaitForSeconds(0.5f); // 可根据需要调整延迟时间
+            NextPass();
+            
         }
         else
         {
             LoadGrid();
             GameAudio.Instance.Wrong();
-            flicker.Instance.startFlick();
-            prevRoute(false);
+            if(CustomsPass.passRecord[nowStage - 1][nowPass - 1] == false) //如果历史上没通过就闪烁
+            {
+                flicker.Instance.startFlick();
+                prevRoute(false);
+            }
         }
     }
 
@@ -320,7 +331,6 @@ public class GridGame : MonoBehaviour
         {
             PrevLevelButton.gameObject.SetActive(true);
         }
-        //GameMgr.LoadData().currentLevel == nowPass ||
         if ( nowPass == 10)
         {
             NextLevelButton.gameObject.SetActive(false);
@@ -472,9 +482,14 @@ public class GridGame : MonoBehaviour
             int dy = CustomsPass.routeRecord[(nowStage - 1) * 10 + nowPass - 1][i] % 10;
             SpriteRenderer spriteRenderer = nowGridPrefab[dx * 6 + dy].lowLight.GetComponent<SpriteRenderer>();
             UnityEngine.Color color;
-            if (CustomsPass.passRecord[nowStage - 1][nowPass - 1] == false) //如果上一次没通关
+            if (CustomsPass.passRecord[nowStage - 1][nowPass - 1] == false) //如果没通关过
             {
                 UnityEngine.ColorUtility.TryParseHtmlString("#F5A190", out color);//改为浅红色
+                spriteRenderer.color = color;
+            }
+            else if(CustomsPass.prevPassRecord[nowStage - 1][nowPass - 1] == false) //通关过但是上一次路径错误
+            {
+                UnityEngine.ColorUtility.TryParseHtmlString("#F3BA87", out color);//改为橘色
                 spriteRenderer.color = color;
             }
             if(visible) nowGridPrefab[dx * 6 + dy].lowLight.SetActive(true);

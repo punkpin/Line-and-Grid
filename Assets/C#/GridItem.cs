@@ -28,6 +28,8 @@ public class GridItem : MonoBehaviour
     public GameObject selected;      //鼠标是否经过
     public GameObject highLight;     //是否被选
     public GameObject lowLight;      //记录路径的颜色
+    public ParticleSystem particleSystemSquare; //方形特效
+    public ParticleSystem ParticleSystemCircle; //圆形特效
     public bool isMouseOver;
 
 
@@ -143,4 +145,10 @@ public class GridItem : MonoBehaviour
 
     }
 
+    public void PlayParticleSystem()
+    {
+        if(itemInfo.isSquare) particleSystemSquare.Play();
+        if(itemInfo.isCircle) ParticleSystemCircle.Play();
+        Debug.Log("特效释放");
+    }
 }
