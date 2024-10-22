@@ -438,13 +438,19 @@ public class CustomsPass
         }
     }; //关卡主题四
 
-    public static bool[][] passRecord = new bool[4][] //通关记录
+    private static List<List<bool>> _passRecord;
+    public static List<List<bool>> passRecord
     {
-        new bool[10] {false,false,false,false,false,false,false,false,false,false },
-        new bool[10] {false,false,false,false,false,false,false,false,false,false },
-        new bool[10] {false,false,false,false,false,false,false,false,false,false },
-        new bool[10] {false,false,false,false,false,false,false,false,false,false },
-    };
+        get
+        {
+            _passRecord = _passRecord ?? GameMgr.LoadPassRecord();
+            return _passRecord;
+        }
+        set
+        {
+            passRecord = value;
+        }
+    }
     public static bool[][] prevPassRecord = new bool[4][] //上一次通关记录
     {
         new bool[10] {false,false,false,false,false,false,false,false,false,false },
@@ -453,12 +459,14 @@ public class CustomsPass
         new bool[10] {false,false,false,false,false,false,false,false,false,false },
     };
 
-    public static List<List<int>> routeRecord = new List<List<int>> //路径记录
+    private static List<List<int>> _routeRecord;
+    public static List<List<int>> routeRecord
     {
-        new List<int>(),new List<int>(),new List<int>(),new List<int>(),new List<int>(),new List<int>(),new List<int>(),new List<int>(),new List<int>(),new List<int>(),
-        new List<int>(),new List<int>(),new List<int>(),new List<int>(),new List<int>(),new List<int>(),new List<int>(),new List<int>(),new List<int>(),new List<int>(),
-        new List<int>(),new List<int>(),new List<int>(),new List<int>(),new List<int>(),new List<int>(),new List<int>(),new List<int>(),new List<int>(),new List<int>(),
-        new List<int>(),new List<int>(),new List<int>(),new List<int>(),new List<int>(),new List<int>(),new List<int>(),new List<int>(),new List<int>(),new List<int>(),
-
-    };
+        get
+        {
+            _routeRecord = _routeRecord??GameMgr.LoadRouteRecord();
+            return _routeRecord;
+        }
+        set =>_routeRecord=value;
+    }
 }

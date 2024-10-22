@@ -16,7 +16,7 @@ public class line : MonoBehaviour
         Sprite Unlocked=Sprite.Create(U,new Rect(0,0,U.width,U.height),new Vector2(0.5f,0.5f));
         Texture2D L= Resources.Load<Texture2D>("Sprite/Background/LockedLevels");
         Sprite Locked=Sprite.Create(L,new Rect(0,0,L.width,L.height),new Vector2(0.5f,0.5f));
-        if (GameMgr.LoadData(index).currentLevel == 0)
+        if (GameMgr.LoadData(index).currentLevel==-1)
         {
             GetComponent<Image>().sprite = Locked;
             GetComponent<Button>().interactable = false;
@@ -33,7 +33,7 @@ public class line : MonoBehaviour
             _lineRenderer.SetPosition(1, next.transform.position);
             if (index <= 3)
             {
-                if (GameMgr.LoadData(index+1).currentLevel == 0)
+                if (GameMgr.LoadData(index+1).currentLevel==-1)
                 {
                     _lineRenderer.textureScale = new Vector2(3,1);
                     _lineRenderer.materials[1].color = Color.gray;

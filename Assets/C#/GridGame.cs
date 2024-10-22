@@ -42,7 +42,7 @@ public class GridGame : MonoBehaviour
     public bool isPass; //是否过关
     private void Start()
     {
-        nowPass = GameMgr.CurrentLevel;
+        nowPass = GameMgr.CurrentLevel==0?1:GameMgr.CurrentLevel;
         LoadGrid();
     }
 
@@ -75,6 +75,7 @@ public class GridGame : MonoBehaviour
             {
                 CustomsPass.routeRecord[(nowStage - 1) * 10 + nowPass - 1].Add(gridRoute[i].itemInfo.index_i * 10 + gridRoute[i].itemInfo.index_j);
             }
+            GameMgr.SaveRecord();
         }
         
         if (isPass == false)
@@ -85,6 +86,7 @@ public class GridGame : MonoBehaviour
                 CustomsPass.routeRecord[(nowStage - 1) * 10 + nowPass - 1].Add(gridRoute[i].itemInfo.index_i * 10 + gridRoute[i].itemInfo.index_j);
             }
             CustomsPass.prevPassRecord[nowStage - 1][nowPass - 1] = false;//上一次没通关
+            GameMgr.SaveRecord();
         }
         StartCoroutine(ClearRoute());
     }
@@ -309,7 +311,7 @@ public class GridGame : MonoBehaviour
             yield return new WaitForSeconds(0.5f); // 可根据需要调整延迟时间
             if (nowPass == 10)
             {
-                 GameMgr.SaveData(nowStage+1,1);
+                 GameMgr.SaveData(nowStage+1,0);
                  GameMgr.LoadScene("Select");
             }
             else
@@ -350,7 +352,7 @@ public class GridGame : MonoBehaviour
             NextLevelButton.gameObject.SetActive(true);
         }
         
-        if (nowPass > GameMgr.LoadData(nowStage).currentLevel)
+        if (nowPass > GameMgr.LoadData(nowStage).currentLevel&&GameMgr.LoadData(nowStage).currentLevel>0)
         {
             GameMgr.SaveData(nowStage, nowPass);
         }
