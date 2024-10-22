@@ -14,6 +14,7 @@ public struct Data{
 }
 public class GameMgr : MonoBehaviour
 {
+    public static bool[] isThemePlayed = new bool[4] { false ,false,false,false };
     public static int CurrentLevel = 0;
     public static void SaveData(int c,int x){
         string dataJson=JsonUtility.ToJson(new Data(x));
@@ -116,11 +117,11 @@ public class GameMgr : MonoBehaviour
         {
             if (!File.Exists(Path.Combine(Application.persistentDataPath,$"gameLevelDataChapter{c}.json")))
             {
-                SaveData(c,-1);
+                SaveData(c,0);
             }
         }
         if(!File.Exists(Path.Combine(Application.persistentDataPath,"gameLevelDataChapter1.json")))
-            SaveData(1,0);
+            SaveData(1,1);
 
         if (!File.Exists(Path.Combine(Application.persistentDataPath, "passAndRouteRecord.json")))
         {

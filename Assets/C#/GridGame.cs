@@ -311,7 +311,7 @@ public class GridGame : MonoBehaviour
             yield return new WaitForSeconds(0.5f); // 可根据需要调整延迟时间
             if (nowPass == 10)
             {
-                 GameMgr.SaveData(nowStage+1,0);
+                 GameMgr.SaveData(nowStage+1,1);
                  GameMgr.LoadScene("Select");
             }
             else
@@ -352,7 +352,7 @@ public class GridGame : MonoBehaviour
             NextLevelButton.gameObject.SetActive(true);
         }
         
-        if (nowPass > GameMgr.LoadData(nowStage).currentLevel&&GameMgr.LoadData(nowStage).currentLevel>0)
+        if (nowPass > GameMgr.LoadData(nowStage).currentLevel)
         {
             GameMgr.SaveData(nowStage, nowPass);
         }
