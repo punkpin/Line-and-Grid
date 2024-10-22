@@ -25,7 +25,7 @@ public class Theme : MonoBehaviour
     public List<Text> texts;
     void Start()
     {
-        if (GameMgr.LoadData(GridGame.Instance.nowStage).currentLevel != 0)
+        if (GameMgr.isThemePlayed[GridGame.Instance.nowStage])
         {
             ThemePrefab.SetActive(false);
             this.enabled = false;
@@ -62,7 +62,7 @@ public class Theme : MonoBehaviour
         else
         {
             ThemePrefab.SetActive(false); //关闭主题展示
-            GameMgr.SaveData(GridGame.Instance.nowStage, 1);
+            GameMgr.isThemePlayed[GridGame.Instance.nowStage] = true;
             themeAlpha = 0f;
         }
     }
@@ -70,5 +70,10 @@ public class Theme : MonoBehaviour
     public void newAlpha() //改变Alpha来显示主题
     {
         themeAlpha = 1; 
+    }
+
+    public void CloseTheme()
+    {
+        ThemePrefab.SetActive(false);
     }
 }
