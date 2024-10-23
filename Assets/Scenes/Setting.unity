@@ -523,7 +523,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.1, y: 0.55}
   m_AnchorMax: {x: 0.17, y: 0.8}
-  m_AnchoredPosition: {x: 6.1522827, y: 0}
+  m_AnchoredPosition: {x: 6.1523438, y: 0}
   m_SizeDelta: {x: 12.3045, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &519905113
@@ -735,7 +735,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.1, y: 0.1}
   m_AnchorMax: {x: 0.25, y: 0.9}
-  m_AnchoredPosition: {x: 0, y: -0.000022888184}
+  m_AnchoredPosition: {x: 0, y: -0.000030517578}
   m_SizeDelta: {x: 0, y: 16.2}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &829177055
@@ -1155,7 +1155,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.1, y: 0.2}
   m_AnchorMax: {x: 0.17, y: 0.45}
-  m_AnchoredPosition: {x: 6.1522827, y: 0}
+  m_AnchoredPosition: {x: 6.1523438, y: 0}
   m_SizeDelta: {x: 12.305, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &997839566
@@ -1387,7 +1387,7 @@ MonoBehaviour:
   onValueChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_IsOn: 1
+  m_IsOn: 0
 --- !u!114 &1591785737
 MonoBehaviour:
   m_ObjectHideFlags: 0

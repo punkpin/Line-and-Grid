@@ -48,7 +48,7 @@ public class GridGame : MonoBehaviour
 
     public void Update()
     {
-        Debug.Log(GameMgr.isThemePlayed[1]);
+        //Debug.Log(GameMgr.isThemePlayed[1]);
         if (!Input.GetMouseButton(0) && isAnimPlaying == false) //已经松开了鼠标 并且不在检查时间内
         {
             isAnimPlaying = true;
