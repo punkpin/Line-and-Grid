@@ -62,7 +62,7 @@ public class Theme : MonoBehaviour
         else
         {
             ThemePrefab.SetActive(false); //关闭主题展示
-            GameMgr.isThemePlayed[GridGame.Instance.nowStage] = true;
+            GameMgr.isThemePlayed[GridGame.Instance.nowStage - 1] = true;
             themeAlpha = 0f;
         }
     }
@@ -74,6 +74,6 @@ public class Theme : MonoBehaviour
 
     public void CloseTheme()
     {
-        ThemePrefab.SetActive(false);
+        waitingTime = 0;
     }
 }

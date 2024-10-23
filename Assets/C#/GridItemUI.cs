@@ -11,9 +11,11 @@ public class GridItemUI : MonoBehaviour
     public bool isDigit;    //ÊÇ·ñÎªÊý×Ö
     public int digitalType;
     public Text text;
+    
 
     private void Start()
     {
+
         if (isDigit)
         {
             if (math.abs(digit) < 100) text.text = digit.ToString();

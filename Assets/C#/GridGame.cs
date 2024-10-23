@@ -223,7 +223,7 @@ public class GridGame : MonoBehaviour
                 {
                     int nx = tx + dx[k], ny = ty + dy[k]; 
                     if (nx < 0 || nx >= 6 || ny < 0 || ny >= 6) continue;
-                    if (gridItemInfos[nx, ny].value == 1 && gridItemInfos[nx, ny].isDigit == false) a++; //周围是路径就减一
+                    if (gridItemInfos[nx, ny].value == 1 && gridItemInfos[nx, ny].isDigit == false) a++; //周围是路径就加一
                     else b++;
                 }
                 if (a - b != value)
@@ -240,7 +240,7 @@ public class GridGame : MonoBehaviour
                 {
                     int nx = tx + dx[k], ny = ty + dy[k];
                     if (nx < 0 || nx >= 6 || ny < 0 || ny >= 6) continue;
-                    if (gridItemInfos[nx, ny].value == 1 && gridItemInfos[nx, ny].isDigit == false) a++; //周围是路径就减一
+                    if (gridItemInfos[nx, ny].value == 1 && gridItemInfos[nx, ny].isDigit == false) a++; //周围是路径就加一
                     else b++;
                 }
                 if (a * (a - b) != value)
@@ -257,7 +257,7 @@ public class GridGame : MonoBehaviour
                 {
                     int nx = tx + dx[k], ny = ty + dy[k];
                     if (nx < 0 || nx >= 6 || ny < 0 || ny >= 6) continue;
-                    if (gridItemInfos[nx, ny].value == 1 && gridItemInfos[nx, ny].isDigit == false) a++; //周围是路径就减一
+                    if (gridItemInfos[nx, ny].value == 1 && gridItemInfos[nx, ny].isDigit == false) a++; //周围是路径就加一
                     else b++;
                 }
                 if(math.abs(value) < 100)
@@ -270,11 +270,12 @@ public class GridGame : MonoBehaviour
                 }
                 else
                 {
-                    if(a / (a - b) != (math.abs(value) / 100) / (value % 10))
+                    if(1.0f * a / (a - b) != 1.0f * (math.abs(value) / 100) / (value % 10))
                     {
                         Debug.Log("(" + (tx + 1) + "," + (ty + 1) + ")位置的数字未满足或超过");
                         isRight = false;
                     }
+                    Debug.Log(1.0f * a / (a - b) + " " + 1.0f * (math.abs(value) / 100) / (value % 10));
                 }
                 
             }

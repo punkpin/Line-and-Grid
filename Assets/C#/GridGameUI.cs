@@ -21,9 +21,13 @@ public class GridGameUI : MonoBehaviour
 
     public GameObject gridItemUIPrefab;
     public Text nowPassText;
+    public Text tips;
 
     public void LoadGridUI()
     {
+        if (GridGame.Instance.nowPass == 1) tips.gameObject.SetActive(true);
+        else tips.gameObject.SetActive(false);
+
         for (int i = gridItemUIPrefab.transform.childCount - 1; i >= 0; i--)//删除地图子物体
         {
             GameObject.Destroy(gridItemUIPrefab.transform.GetChild(i).gameObject);
