@@ -763,13 +763,14 @@ GameObject:
   - component: {fileID: 710995091}
   - component: {fileID: 710995090}
   - component: {fileID: 710995092}
+  - component: {fileID: 710995093}
   m_Layer: 5
   m_Name: Theme
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &710995089
 RectTransform:
   m_ObjectHideFlags: 0
@@ -890,6 +891,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!225 &710995093
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 710995088}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &807325840
 GameObject:
   m_ObjectHideFlags: 0
@@ -2643,20 +2656,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ce148d5701418934ebb910e069e2aa38, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  waitingTime: 300
-  themeAlpha: 1
-  downAlpha: 0.005
+  waitingTime: 0.3
   ThemePrefab: {fileID: 710995088}
-  images:
-  - {fileID: 1673664085}
-  - {fileID: 704181293}
-  - {fileID: 710995090}
-  texts:
-  - {fileID: 1405429887}
-  - {fileID: 541512364}
-  - {fileID: 1316040419}
-  - {fileID: 940497839}
-  - {fileID: 1318469331}
 --- !u!1001 &8481075113998088619
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using DG.Tweening;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
@@ -15,65 +16,32 @@ public class Theme : MonoBehaviour
             return instance;
         }
     }
-
-    private float startTime;
-    public float waitingTime;
-    public float themeAlpha; //µ±Ç°Í¸Ã÷¶È
-    public float downAlpha;  //Ã¿Ö¡ÏÂ½µµÄÍ¸Ã÷¶È
-    public GameObject ThemePrefab; //Ö÷ÌâµÄ½çÃæ
-    public List<Image> images;
-    public List<Text> texts;
+    public float waitingTime; 
+    public GameObject ThemePrefab; //ï¿½ï¿½ï¿½ï¿½Ä½ï¿½ï¿½ï¿½
     void Start()
     {
-        if (GameMgr.isThemePlayed[GridGame.Instance.nowStage])
+        if (GameMgr.isThemePlayed[GridGame.Instance.nowStage-1])
         {
             ThemePrefab.SetActive(false);
             this.enabled = false;
             return;
         }
-        startTime = Time.time;
-        if (themeAlpha > 0f)
-        {
-            ThemePrefab.SetActive(true); //´ò¿ªÖ÷ÌâÕ¹Ê¾
-        }
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        if (startTime + waitingTime > Time.time) return;
-        if (themeAlpha > 0f)
-        {
-            themeAlpha -= downAlpha;  //Öð½¥±äÍ¸Ã÷
-            for(int i = 0; i < images.Count; i++)
-            {
-                Color newcolor = images[i].color;
-                newcolor.a = themeAlpha;
-                images[i].color = newcolor;
-            }
-
-            for (int i = 0; i < texts.Count; i++)
-            {
-                Color newcolor = texts[i].color;
-                newcolor.a = themeAlpha;
-                texts[i].color = newcolor;
-            }
-        }
         else
         {
-            ThemePrefab.SetActive(false); //¹Ø±ÕÖ÷ÌâÕ¹Ê¾
-            GameMgr.isThemePlayed[GridGame.Instance.nowStage - 1] = true;
-            themeAlpha = 0f;
+            ThemePrefab.SetActive(true); //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Õ¹Ê¾
         }
-    }
-
-    public void newAlpha() //¸Ä±äAlphaÀ´ÏÔÊ¾Ö÷Ìâ
-    {
-        themeAlpha = 1; 
     }
 
     public void CloseTheme()
     {
-        waitingTime = 0;
+        DOTween.To(() => ThemePrefab.GetComponent<CanvasGroup>().alpha,
+            x => ThemePrefab.GetComponent<CanvasGroup>().alpha = x,
+            0,
+            waitingTime).onComplete += () =>
+        {
+            GameMgr.isThemePlayed[GridGame.Instance.nowStage-1] = true;
+            ThemePrefab.SetActive(false);
+        };
+        
     }
 }

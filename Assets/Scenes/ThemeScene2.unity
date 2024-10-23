@@ -884,13 +884,14 @@ GameObject:
   - component: {fileID: 775837084}
   - component: {fileID: 775837083}
   - component: {fileID: 775837085}
+  - component: {fileID: 775837086}
   m_Layer: 5
   m_Name: Theme
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &775837082
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1009,6 +1010,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!225 &775837086
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 775837081}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &807325840
 GameObject:
   m_ObjectHideFlags: 0
@@ -2588,18 +2601,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ce148d5701418934ebb910e069e2aa38, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  waitingTime: 300
-  themeAlpha: 1
-  downAlpha: 0.005
+  waitingTime: 0.3
   ThemePrefab: {fileID: 775837081}
-  images:
-  - {fileID: 775837083}
-  texts:
-  - {fileID: 1937154888}
-  - {fileID: 1925906496}
-  - {fileID: 260815492}
-  - {fileID: 96142802}
-  - {fileID: 1985412785}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

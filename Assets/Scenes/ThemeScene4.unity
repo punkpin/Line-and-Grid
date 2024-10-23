@@ -1978,6 +1978,7 @@ GameObject:
   - component: {fileID: 1708859154}
   - component: {fileID: 1708859153}
   - component: {fileID: 1708859155}
+  - component: {fileID: 1708859156}
   m_Layer: 5
   m_Name: Theme
   m_TagString: Untagged
@@ -2106,6 +2107,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!225 &1708859156
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1708859151}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &1770111501
 GameObject:
   m_ObjectHideFlags: 0
@@ -3116,21 +3129,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ce148d5701418934ebb910e069e2aa38, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  waitingTime: 120
-  themeAlpha: 1
-  downAlpha: 0.005
+  waitingTime: 0.12
   ThemePrefab: {fileID: 1708859151}
-  images:
-  - {fileID: 1708859153}
-  texts:
-  - {fileID: 44905728}
-  - {fileID: 379074723}
-  - {fileID: 1448889645}
-  - {fileID: 1770111504}
-  - {fileID: 899762282}
-  - {fileID: 1906096052}
-  - {fileID: 223984557}
-  - {fileID: 2035570815}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
